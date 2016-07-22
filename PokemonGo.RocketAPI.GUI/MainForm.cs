@@ -459,7 +459,7 @@ namespace PokemonGo.RocketAPI.GUI
 
             foreach (var pokeStop in pokeStops)
             {
-                var update = await client.UpdatePlayerLocation(pokeStop.Latitude, pokeStop.Longitude);
+                var update = await client.UpdatePlayerLocation(pokeStop.Latitude, pokeStop.Longitude, settings.DefaultAltitude);
                 var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
                 boxPokestopName.Text = fortInfo.Name.ToString();
@@ -499,7 +499,7 @@ namespace PokemonGo.RocketAPI.GUI
             Logger.Write("Found " + pokemons.Count<MapPokemon>() + " Pokemons in the area.");
             foreach (var pokemon in pokemons)
             {   
-                var update = await client.UpdatePlayerLocation(pokemon.Latitude, pokemon.Longitude);
+                var update = await client.UpdatePlayerLocation(pokemon.Latitude, pokemon.Longitude, settings.DefaultAltitude);
                 var encounterPokemonResponse = await client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);
                 var pokemonCP = encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp;
                 var pokeball = await GetBestBall(pokemonCP);

@@ -76,7 +76,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokeStop in pokeStops)
             {
-                var update = await client.UpdatePlayerLocation(pokeStop.Latitude, pokeStop.Longitude);
+                var update = await client.UpdatePlayerLocation(pokeStop.Latitude, pokeStop.Longitude, _clientSettings.DefaultAltitude);
                 //var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 var fortSearch = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
@@ -95,7 +95,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokemon in pokemons)
             {
-                var update = await client.UpdatePlayerLocation(pokemon.Latitude, pokemon.Longitude);
+                var update = await client.UpdatePlayerLocation(pokemon.Latitude, pokemon.Longitude, _clientSettings.DefaultAltitude);
                 var encounterPokemonResponse = await client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);
                 var pokemonCP = encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp;
                 var pokeball = await GetBestBall(pokemonCP);
