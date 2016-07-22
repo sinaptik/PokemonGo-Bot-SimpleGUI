@@ -41,6 +41,7 @@
             this.lbPkmnHr = new System.Windows.Forms.Label();
             this.lbExpHour = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lbExperience = new System.Windows.Forms.Label();
             this.lbLevel = new System.Windows.Forms.Label();
             this.lbName = new System.Windows.Forms.Label();
             this.dGrid = new System.Windows.Forms.DataGridView();
@@ -57,7 +58,6 @@
             this.boxPokemonName = new System.Windows.Forms.TextBox();
             this.boxPokemonCaughtProb = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.lbExperience = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -213,6 +213,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Player Information";
             // 
+            // lbExperience
+            // 
+            this.lbExperience.AutoSize = true;
+            this.lbExperience.Location = new System.Drawing.Point(6, 51);
+            this.lbExperience.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lbExperience.Name = "lbExperience";
+            this.lbExperience.Size = new System.Drawing.Size(35, 13);
+            this.lbExperience.TabIndex = 2;
+            this.lbExperience.Text = "label1";
+            // 
             // lbLevel
             // 
             this.lbLevel.AutoSize = true;
@@ -357,6 +367,7 @@
             this.boxPokemonName.Name = "boxPokemonName";
             this.boxPokemonName.Size = new System.Drawing.Size(118, 20);
             this.boxPokemonName.TabIndex = 11;
+            this.boxPokemonName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // boxPokemonCaughtProb
             // 
@@ -365,6 +376,7 @@
             this.boxPokemonCaughtProb.Name = "boxPokemonCaughtProb";
             this.boxPokemonCaughtProb.Size = new System.Drawing.Size(118, 20);
             this.boxPokemonCaughtProb.TabIndex = 18;
+            this.boxPokemonCaughtProb.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label15
             // 
@@ -375,16 +387,6 @@
             this.label15.Size = new System.Drawing.Size(35, 13);
             this.label15.TabIndex = 10;
             this.label15.Text = "Name";
-            // 
-            // lbExperience
-            // 
-            this.lbExperience.AutoSize = true;
-            this.lbExperience.Location = new System.Drawing.Point(6, 51);
-            this.lbExperience.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.lbExperience.Name = "lbExperience";
-            this.lbExperience.Size = new System.Drawing.Size(35, 13);
-            this.lbExperience.TabIndex = 2;
-            this.lbExperience.Text = "label1";
             // 
             // MainForm
             // 

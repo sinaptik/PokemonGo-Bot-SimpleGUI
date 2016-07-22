@@ -53,6 +53,19 @@ namespace PokemonGo.RocketAPI.GUI
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
+            try
+            {
+                await displayLoginWindow();
+                setProfileInformation();
+                await GetCurrentLevelInformation();
+            }
+            catch
+            {
+            }
+        }
+
+        private async Task displayLoginWindow()
+        {
             // Display Login
             this.Hide();
             LoginForm loginForm = new LoginForm();
@@ -70,14 +83,19 @@ namespace PokemonGo.RocketAPI.GUI
                 await loginGoogle();
 
             loginForm.Close();
-
-            setProfileInformation();
-            await GetCurrentLevelInformation();
         }
 
         private void setProfileInformation()
         {
-            lbName.Text = profile.Profile.Username;
+            try
+            {
+                lbName.Text = profile.Profile.Username;
+            }
+            catch
+            {
+                lbName.Text = "Unable to Retrieve Name";
+            }
+            
         }
 
         private void startLogger()
@@ -97,7 +115,7 @@ namespace PokemonGo.RocketAPI.GUI
                 this.settings = new Settings();
 
                 // Begin Login
-                Logger.Write("Trying to log in with Google.");
+                Logger.Write("Trying to Login with Google Token...");
                 Client client = new Client(this.settings);
                 await client.DoGoogleLogin();
                 await client.SetServer();
@@ -113,8 +131,7 @@ namespace PokemonGo.RocketAPI.GUI
             }
             catch (Exception ex)
             {
-                Logger.Write("Error while connecting with Google Login.");
-                Logger.Write(ex.Message, LogLevel.Debug);
+                Logger.Write("Unable to Connect using the Google Token.");
             }
         }
 
@@ -130,7 +147,7 @@ namespace PokemonGo.RocketAPI.GUI
                 this.settings = new Settings();
 
                 // Begin Login
-                Logger.Write("Trying to log in with PTC.");
+                Logger.Write("Trying to Login with PTC Credentials...");
                 Client client = new Client(this.settings);
                 await client.DoPtcLogin(this.settings.PtcUsername, this.settings.PtcPassword);
                 await client.SetServer();
@@ -146,8 +163,7 @@ namespace PokemonGo.RocketAPI.GUI
             }         
             catch(Exception ex)
             {
-                Logger.Write("Error while connecting with PTC Login.");
-                Logger.Write(ex.Message, LogLevel.Debug);
+                Logger.Write("Unable to Connect using the PTC Credentials.");
             }
         }
 
@@ -158,6 +174,8 @@ namespace PokemonGo.RocketAPI.GUI
             btnRecycleItems.Enabled = true;
             btnEvolvePokemons.Enabled = true;
             cbKeepPkToEvolve.Enabled = true;
+
+            Logger.Write("Ready to Work.");
         }
 
         private void btnStartFarming_Click(object sender, EventArgs e)
