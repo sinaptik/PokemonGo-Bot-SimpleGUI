@@ -14,6 +14,7 @@ namespace PokemonGo.RocketAPI.GUI
     public partial class LoginForm : Form
     {
         public AuthType auth;
+        public bool loginSelected = false;
 
         public LoginForm()
         {
@@ -27,12 +28,14 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void btnPtcLogin_Click(object sender, EventArgs e)
         {
+            loginSelected = true;
             auth = AuthType.Ptc;
             this.Hide();
         }
 
         private void btnGoogleLogin_Click(object sender, EventArgs e)
         {
+            loginSelected = true;
             auth = AuthType.Google;
             this.Hide();
         }

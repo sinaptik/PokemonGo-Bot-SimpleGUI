@@ -59,6 +59,10 @@ namespace PokemonGo.RocketAPI.GUI
             loginForm.ShowDialog();
             this.Show();
 
+            // Check if an Option was Selected
+            if (!loginForm.loginSelected)
+                Application.Exit();
+
             // Determine Login Method
             if (loginForm.auth == AuthType.Ptc)
                 await loginPtc(loginForm.boxUsername.Text, loginForm.boxPassword.Text);
@@ -99,15 +103,17 @@ namespace PokemonGo.RocketAPI.GUI
                 await client.SetServer();
 
                 // Server Ready
-                Logger.Write("Connected. Server is Ready.");
+                Logger.Write("Connected! Server is Ready.");
                 this.client = client;
+
+                Logger.Write("Attempting to Retrieve Inventory and Player Profile...");
                 this.inventory = new Inventory(client);
                 this.profile = await client.GetProfile();
                 enableButtons();
             }
             catch (Exception ex)
             {
-                Logger.Write("Error while connecting with PTC.");
+                Logger.Write("Error while connecting with Google Login.");
                 Logger.Write(ex.Message, LogLevel.Debug);
             }
         }
@@ -130,15 +136,17 @@ namespace PokemonGo.RocketAPI.GUI
                 await client.SetServer();
 
                 // Server Ready
-                Logger.Write("Connected. Server is Ready.");
+                Logger.Write("Connected! Server is Ready.");
                 this.client = client;
+
+                Logger.Write("Attempting to Retrieve Inventory and Player Profile...");
                 this.inventory = new Inventory(client);
                 this.profile = await client.GetProfile();
                 enableButtons();
             }         
             catch(Exception ex)
             {
-                Logger.Write("Error while connecting with PTC.");
+                Logger.Write("Error while connecting with PTC Login.");
                 Logger.Write(ex.Message, LogLevel.Debug);
             }
         }
