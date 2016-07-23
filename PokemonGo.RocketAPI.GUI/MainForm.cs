@@ -188,7 +188,7 @@ namespace PokemonGo.RocketAPI.GUI
                 this.profile = await client.GetProfile();
                 enableButtons();
             }         
-            catch(Exception ex)
+            catch
             {
                 Logger.Write("Unable to Connect using the PTC Credentials.");
                 MessageBox.Show("Unable to Authenticate with Login Server.", "Login Problem");
@@ -387,8 +387,9 @@ namespace PokemonGo.RocketAPI.GUI
                 }
                 catch (Exception ex)
                 {
-                    Logger.Write("Bot Crashed! :( Starting again.");
+                    Logger.Write("Bot Crashed! :( Starting again in 5 seconds...");
                     createCrashLog(ex);
+                    System.Threading.Thread.Sleep(5000);
                 }
             }           
         }
@@ -398,14 +399,12 @@ namespace PokemonGo.RocketAPI.GUI
             try
             {
                 string filename = "CrashLog." + DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".txt";
-                File.Create(filename);
-                TextWriter tw = new StreamWriter(filename);
-
-                tw.Write(ex.Message);
-                tw.Write(ex.Source);
-                tw.Write(ex.StackTrace);
-
-                tw.Close();
+                
+                using (StreamWriter w = new StreamWriter(filename, true))
+                {
+                    w.WriteLine("Message: " + ex.Message);
+                    w.WriteLine("StackTrace: " + ex.StackTrace);
+                }
             }
             catch
             {
