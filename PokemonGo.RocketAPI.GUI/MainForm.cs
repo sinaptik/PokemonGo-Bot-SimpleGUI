@@ -56,7 +56,7 @@ namespace PokemonGo.RocketAPI.GUI
         private async void MainForm_Load(object sender, EventArgs e)
         {
             try
-            {   
+            {                
                 await displayLoginWindow();
                 displayPositionSelector();
                 await GetCurrentPlayerInformation();
@@ -78,11 +78,12 @@ namespace PokemonGo.RocketAPI.GUI
             // Check if Position was Selected
             try
             {
-                double.Parse(UserSettings.Default.DefaultLatitude.ToString());
-                double.Parse(UserSettings.Default.DefaultLongitude.ToString());
+                if (!locationSelect.setPos)
+                    throw new ArgumentException();
 
-                if (UserSettings.Default.DefaultLatitude == 0 || UserSettings.Default.DefaultLongitude == 0)
-                    throw new FormatException();
+                // Persisting the Initial Position
+                client.SaveLatLng(locationSelect.lat, locationSelect.lng);
+                client.SetCoordinates(locationSelect.lat, locationSelect.lng, UserSettings.Default.DefaultAltitude);
             }
             catch
             {
@@ -384,6 +385,14 @@ namespace PokemonGo.RocketAPI.GUI
                 {
                     // Start Farming Pokestops/Pokemons.
                     await ExecuteFarmingPokestopsAndPokemons();
+
+                    // Evolve Pokemons.
+                    btnEvolvePokemons_Click(null, null);
+                    System.Threading.Thread.Sleep(10000);
+
+                    // Transfer Duplicates.
+                    btnTransferDuplicates_Click(null, null);
+                    System.Threading.Thread.Sleep(10000);
                 }
                 catch (Exception ex)
                 {

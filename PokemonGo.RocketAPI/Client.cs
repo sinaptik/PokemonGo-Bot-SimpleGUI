@@ -333,7 +333,7 @@ namespace PokemonGo.RocketAPI
             _authType = type;
         }
 
-        private void SetCoordinates(double lat, double lng, double altitude)
+        public void SetCoordinates(double lat, double lng, double altitude)
         {
             CurrentLat = lat;
             CurrentLng = lng;

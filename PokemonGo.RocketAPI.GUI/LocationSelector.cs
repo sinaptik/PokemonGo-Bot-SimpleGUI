@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.GUI
 
         public double lat;
         public double lng;
+        public bool setPos = false;
 
         public LocationSelector()
         {
@@ -93,9 +94,16 @@ namespace PokemonGo.RocketAPI.GUI
         private void btnSetLocation_Click(object sender, EventArgs e)
         {
             // Persist the Position
+            lat = MainMap.Position.Lat;
+            lng = MainMap.Position.Lng;
+
+            // User Settings
             UserSettings.Default.DefaultLatitude = lat;
             UserSettings.Default.DefaultLongitude = lng;
             UserSettings.Default.Save();
+
+            // Confirm Position Selection
+            setPos = true;
 
             // Close this Window
             this.Hide();
