@@ -14,6 +14,7 @@ using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Logic.Utils;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.GUI
 {
@@ -55,14 +56,41 @@ namespace PokemonGo.RocketAPI.GUI
         private async void MainForm_Load(object sender, EventArgs e)
         {
             try
-            {
+            {   
                 await displayLoginWindow();
+                displayPositionSelector();
                 await GetCurrentPlayerInformation();
                 await preflightCheck();
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Logger.Write(ex.Message);
+            }
+        }
+
+        private void displayPositionSelector()
+        {
+            // Display Position Selector
+            LocationSelector locationSelect = new LocationSelector();
+            locationSelect.ShowDialog();
+
+            // Check if Position was Selected
+            try
+            {
+                double.Parse(UserSettings.Default.DefaultLatitude.ToString());
+                double.Parse(UserSettings.Default.DefaultLongitude.ToString());
+            }
             catch
             {
+                MessageBox.Show("You need to declare a location.");
             }
+
+            // Display Starting Location
+            Logger.Write($"Starting in Location Lat: {UserSettings.Default.DefaultLatitude} Lng: {UserSettings.Default.DefaultLongitude}");
+
+            // Close the Location Window
+            locationSelect.Close();
         }
 
         private async Task displayLoginWindow()
@@ -82,6 +110,9 @@ namespace PokemonGo.RocketAPI.GUI
                 await loginPtc(loginForm.boxUsername.Text, loginForm.boxPassword.Text);
             if (loginForm.auth == AuthType.Google)
                 await loginGoogle();
+
+            // Select the Location
+            Logger.Write("Select Starting Location...");
 
             // Close the Login Form
             loginForm.Close();
@@ -150,9 +181,10 @@ namespace PokemonGo.RocketAPI.GUI
                 this.profile = await client.GetProfile();
                 enableButtons();
             }         
-            catch
+            catch(Exception ex)
             {
                 Logger.Write("Unable to Connect using the PTC Credentials.");
+                Logger.Write(ex.Message);
             }
         }
 
@@ -337,15 +369,39 @@ namespace PokemonGo.RocketAPI.GUI
             sessionTimer.Start();
             sessionStartTime = DateTime.Now;
 
-            try {
-                // Start Farming Pokestops/Pokemons.
-                await ExecuteFarmingPokestopsAndPokemons();
-            }
-            catch (Exception ex)
+            // Loop Until we Manually Stop
+            while(isFarmingActive)
             {
-                Logger.Write(ex.Message);
-                btnStopFarming_Click(null, null);
-                Logger.Write("Stopping the Bot, a problem was found.");
+                try
+                {
+                    // Start Farming Pokestops/Pokemons.
+                    await ExecuteFarmingPokestopsAndPokemons();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Write("Bot Crashed! :( Starting again.");
+                    createCrashLog(ex);
+                }
+            }           
+        }
+
+        private void createCrashLog(Exception ex)
+        {
+            try
+            {
+                string filename = "CrashLog." + DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".txt";
+                File.Create(filename);
+                TextWriter tw = new StreamWriter(filename);
+
+                tw.Write(ex.Message);
+                tw.Write(ex.Source);
+                tw.Write(ex.StackTrace);
+
+                tw.Close();
+            }
+            catch
+            {
+                Logger.Write("Unable to Create Crash Log.");
             }
         }
 

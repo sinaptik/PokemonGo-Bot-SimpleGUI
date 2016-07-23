@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbCanEvolveCont = new System.Windows.Forms.Label();
             this.cbKeepPkToEvolve = new System.Windows.Forms.CheckBox();
@@ -41,6 +42,8 @@
             this.lbPkmnHr = new System.Windows.Forms.Label();
             this.lbExpHour = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lbItemsInventory = new System.Windows.Forms.Label();
+            this.lbPokemonsInventory = new System.Windows.Forms.Label();
             this.lbExperience = new System.Windows.Forms.Label();
             this.lbLevel = new System.Windows.Forms.Label();
             this.lbName = new System.Windows.Forms.Label();
@@ -58,8 +61,6 @@
             this.boxPokemonName = new System.Windows.Forms.TextBox();
             this.boxPokemonCaughtProb = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.lbPokemonsInventory = new System.Windows.Forms.Label();
-            this.lbItemsInventory = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -217,15 +218,35 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Player Information";
             // 
+            // lbItemsInventory
+            // 
+            this.lbItemsInventory.AutoSize = true;
+            this.lbItemsInventory.Location = new System.Drawing.Point(6, 83);
+            this.lbItemsInventory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lbItemsInventory.Name = "lbItemsInventory";
+            this.lbItemsInventory.Size = new System.Drawing.Size(84, 13);
+            this.lbItemsInventory.TabIndex = 4;
+            this.lbItemsInventory.Text = "lbItemsInventory";
+            // 
+            // lbPokemonsInventory
+            // 
+            this.lbPokemonsInventory.AutoSize = true;
+            this.lbPokemonsInventory.Location = new System.Drawing.Point(6, 67);
+            this.lbPokemonsInventory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lbPokemonsInventory.Name = "lbPokemonsInventory";
+            this.lbPokemonsInventory.Size = new System.Drawing.Size(65, 13);
+            this.lbPokemonsInventory.TabIndex = 3;
+            this.lbPokemonsInventory.Text = "lbPokemons";
+            // 
             // lbExperience
             // 
             this.lbExperience.AutoSize = true;
             this.lbExperience.Location = new System.Drawing.Point(6, 51);
             this.lbExperience.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.lbExperience.Name = "lbExperience";
-            this.lbExperience.Size = new System.Drawing.Size(35, 13);
+            this.lbExperience.Size = new System.Drawing.Size(68, 13);
             this.lbExperience.TabIndex = 2;
-            this.lbExperience.Text = "label1";
+            this.lbExperience.Text = "lbExperience";
             // 
             // lbLevel
             // 
@@ -233,9 +254,9 @@
             this.lbLevel.Location = new System.Drawing.Point(6, 35);
             this.lbLevel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.lbLevel.Name = "lbLevel";
-            this.lbLevel.Size = new System.Drawing.Size(35, 13);
+            this.lbLevel.Size = new System.Drawing.Size(41, 13);
             this.lbLevel.TabIndex = 1;
-            this.lbLevel.Text = "label4";
+            this.lbLevel.Text = "lbLevel";
             // 
             // lbName
             // 
@@ -243,9 +264,9 @@
             this.lbName.Location = new System.Drawing.Point(6, 19);
             this.lbName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(35, 13);
+            this.lbName.Size = new System.Drawing.Size(43, 13);
             this.lbName.TabIndex = 0;
-            this.lbName.Text = "label5";
+            this.lbName.Text = "lbName";
             // 
             // dGrid
             // 
@@ -392,26 +413,6 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Name";
             // 
-            // lbPokemonsInventory
-            // 
-            this.lbPokemonsInventory.AutoSize = true;
-            this.lbPokemonsInventory.Location = new System.Drawing.Point(6, 67);
-            this.lbPokemonsInventory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.lbPokemonsInventory.Name = "lbPokemonsInventory";
-            this.lbPokemonsInventory.Size = new System.Drawing.Size(35, 13);
-            this.lbPokemonsInventory.TabIndex = 3;
-            this.lbPokemonsInventory.Text = "label1";
-            // 
-            // lbItemsInventory
-            // 
-            this.lbItemsInventory.AutoSize = true;
-            this.lbItemsInventory.Location = new System.Drawing.Point(6, 83);
-            this.lbItemsInventory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.lbItemsInventory.Name = "lbItemsInventory";
-            this.lbItemsInventory.Size = new System.Drawing.Size(35, 13);
-            this.lbItemsInventory.TabIndex = 4;
-            this.lbItemsInventory.Text = "label1";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,9 +425,9 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pokemon Go Bot - SimpleGUI v0.9 (Beta)";
             this.Load += new System.EventHandler(this.MainForm_Load);
