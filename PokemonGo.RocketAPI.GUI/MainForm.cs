@@ -615,14 +615,23 @@ namespace PokemonGo.RocketAPI.GUI
 
             foreach (var duplicatePokemon in duplicatePokemons)
             {
-                var transfer = await client.TransferPokemon(duplicatePokemon.Id);
-                Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP", LogLevel.Info);
+                var IV = Logic.Logic.CalculatePokemonPerfection(duplicatePokemon);
+                if (IV < settings.KeepMinIVPercentage)    
+                {
+                    var transfer = await client.TransferPokemon(duplicatePokemon.Id);
+                    Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP and an IV of { IV }", LogLevel.Info);
 
-                // Add Row to DataGrid
-                dGrid.Rows.Insert(0, "Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
+                    // Add Row to DataGrid
+                    dGrid.Rows.Insert(0, "Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
 
-                await GetCurrentPlayerInformation();
-                await Task.Delay(500);
+                    await GetCurrentPlayerInformation();
+                    await Task.Delay(500);
+                }
+                else
+                {
+                    Logger.Write($"Will not transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP and an IV of { IV }", LogLevel.Info);
+                }
+
             }
 
             // Logging
