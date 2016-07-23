@@ -36,7 +36,11 @@ namespace PokemonGo.RocketAPI.GUI
         private void addGoodFarmingLocations()
         {
             // Good Farming Locations (Create Issue in GutHub to Add More)
-            comboLocations.Items.Add(new Loc() { name = "London Park", lat = 51.501663, lng = -0.14102 });
+            comboLocations.Items.Add(new Loc() { name = "London, England", lat = 51.501663, lng = -0.14102 });
+            comboLocations.Items.Add(new Loc() { name = "Santa Monica Pier, LA, USA", lat = 34.00873594425199, lng = -118.49761247634888 });
+            comboLocations.Items.Add(new Loc() { name = "Bryant Park, NY, USA", lat = 40.75320648472645, lng = -73.98390769958496 });
+            comboLocations.Items.Add(new Loc() { name = "Sydney, Australia", lat = -33.870273020353416, lng = 151.20878219604492 });
+            comboLocations.Items.Add(new Loc() { name = "Tokyo, Japan", lat = 35.69051125265253, lng = 139.68954205513 });
         }        
 
         private void LocationSelector_Load(object sender, EventArgs e)
