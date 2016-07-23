@@ -386,13 +386,17 @@ namespace PokemonGo.RocketAPI.GUI
                     // Start Farming Pokestops/Pokemons.
                     await ExecuteFarmingPokestopsAndPokemons();
 
-                    // Evolve Pokemons.
-                    btnEvolvePokemons_Click(null, null);
-                    System.Threading.Thread.Sleep(10000);
+                    // Only Auto-Evolve/Transfer when Continuous.
+                    if (isFarmingActive)
+                    {
+                        // Evolve Pokemons.
+                        btnEvolvePokemons_Click(null, null);
+                        System.Threading.Thread.Sleep(10000);
 
-                    // Transfer Duplicates.
-                    btnTransferDuplicates_Click(null, null);
-                    System.Threading.Thread.Sleep(10000);
+                        // Transfer Duplicates.
+                        btnTransferDuplicates_Click(null, null);
+                        System.Threading.Thread.Sleep(10000);
+                    }
                 }
                 catch (Exception ex)
                 {
