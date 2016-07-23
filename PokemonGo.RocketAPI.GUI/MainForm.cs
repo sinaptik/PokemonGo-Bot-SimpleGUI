@@ -556,7 +556,7 @@ namespace PokemonGo.RocketAPI.GUI
 
                     // GUI Experience
                     totalExperience += evolvePokemonOutProto.ExpAwarded;
-                    dGrid.Rows.Add("Evolved", pokemon.PokemonId.ToString(), evolvePokemonOutProto.ExpAwarded);
+                    dGrid.Rows.Insert(0, "Evolved", pokemon.PokemonId.ToString(), evolvePokemonOutProto.ExpAwarded);
                 }                    
                 else
                 {
@@ -584,7 +584,7 @@ namespace PokemonGo.RocketAPI.GUI
                 Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP", LogLevel.Info);
 
                 // Add Row to DataGrid
-                dGrid.Rows.Add("Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
+                dGrid.Rows.Insert(0, "Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
 
                 await GetCurrentPlayerInformation();
                 await Task.Delay(500);
@@ -609,7 +609,7 @@ namespace PokemonGo.RocketAPI.GUI
                     Logger.Write($"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
 
                     // GUI Experience
-                    dGrid.Rows.Add("Recycled", item.Count, ((ItemId)item.Item_).ToString());
+                    dGrid.Rows.Insert(0, "Recycled", item.Count, ((ItemId)item.Item_).ToString());
 
                     await Task.Delay(500);
                 }
@@ -761,12 +761,12 @@ namespace PokemonGo.RocketAPI.GUI
                     pokemonCaughtCount++;
 
                     // Add Row to the DataGrid
-                    dGrid.Rows.Add("Captured", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
+                    dGrid.Rows.Insert(0, "Captured", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
                 }
                 else
                 {
                     // Add Row to the DataGrid
-                    dGrid.Rows.Add("Ran Away", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
+                    dGrid.Rows.Insert(0, "Ran Away", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
                 }
 
                 boxPokemonName.Clear();

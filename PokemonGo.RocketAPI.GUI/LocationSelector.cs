@@ -64,6 +64,10 @@ namespace PokemonGo.RocketAPI.GUI
                 // Set the Initial Position
                 boxLat.Text = UserSettings.Default.DefaultLatitude.ToString("0.000000");
                 boxLng.Text = UserSettings.Default.DefaultLongitude.ToString("0.000000");
+
+                // Assign Variables
+                lat = UserSettings.Default.DefaultLatitude;
+                lng = UserSettings.Default.DefaultLongitude;
             }
             catch(Exception ex)
             {
