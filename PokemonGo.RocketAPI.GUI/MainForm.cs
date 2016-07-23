@@ -12,7 +12,6 @@ using System.Configuration;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.GeneratedCode;
-using AllEnum;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Logic.Utils;
 
@@ -45,6 +44,8 @@ namespace PokemonGo.RocketAPI.GUI
             lbName.Text = string.Empty;
             lbLevel.Text = string.Empty;
             lbExperience.Text = string.Empty;
+            lbItemsInventory.Text = string.Empty;
+            lbPokemonsInventory.Text = string.Empty;
 
             // Clear Experience
             totalExperience = 0;
@@ -56,8 +57,7 @@ namespace PokemonGo.RocketAPI.GUI
             try
             {
                 await displayLoginWindow();
-                setProfileInformation();
-                await GetCurrentLevelInformation();
+                await GetCurrentPlayerInformation();
                 await preflightCheck();
             }
             catch
@@ -85,11 +85,6 @@ namespace PokemonGo.RocketAPI.GUI
 
             // Close the Login Form
             loginForm.Close();
-        }
-
-        private void setProfileInformation()
-        {
-            lbName.Text = profile.Profile.Username ?? "N/A";
         }
 
         private void startLogger()
@@ -200,6 +195,8 @@ namespace PokemonGo.RocketAPI.GUI
             Logger.Write("Inventory and Pokemon Space, Ready.");
             return true;
         }
+
+
 
         ///////////////////
         // Buttons Logic //
@@ -366,18 +363,117 @@ namespace PokemonGo.RocketAPI.GUI
         ///////////////////////
         // API LOGIC MODULES //
         ///////////////////////
-
-        // Credits to Spegeli aka. MaxMuster for this function
-        public async Task GetCurrentLevelInformation()
+        
+        public async Task GetCurrentPlayerInformation()
         {
-            var inventory = await client.GetInventory();
-            var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PlayerStats).ToArray();
-            foreach (var v in stats)
-                if (v != null)
-                {
-                    lbLevel.Text = $"Level {v.Level}";
-                    lbExperience.Text = $"{v.Experience} / {v.NextLevelXp}";
-                }
+            var playerName = profile.Profile.Username ?? "";
+            var playerStats = await inventory.GetPlayerStats();
+            var playerStat = playerStats.FirstOrDefault();
+            if (playerStat != null)
+            {
+                var xpDifference = GetXPDiff(playerStat.Level);
+                var message =
+                    $"{playerName} | Level {playerStat.Level}: {playerStat.Experience - playerStat.PrevLevelXp - xpDifference}/{playerStat.NextLevelXp - playerStat.PrevLevelXp - xpDifference}XP";
+                lbName.Text = $"Name: {playerName}";
+                lbLevel.Text = $"Level: {playerStat.Level}";
+                lbExperience.Text = $"Experience: {playerStat.Experience - playerStat.PrevLevelXp - xpDifference}/{playerStat.NextLevelXp - playerStat.PrevLevelXp - xpDifference} XP";
+            }
+
+            // Get Pokemons and Inventory
+            var myItems = await inventory.GetItems();
+            var myPokemons = await inventory.GetPokemons();
+
+            // Write to Console
+            lbItemsInventory.Text = $"Inventory: {myItems.Select(i => i.Count).Sum()}/350";
+            lbPokemonsInventory.Text = $"Pokemons: {myPokemons.Count()}/250";
+        }
+
+        public static int GetXPDiff(int level)
+        {
+            switch (level)
+            {
+                case 1:
+                    return 0;
+                case 2:
+                    return 1000;
+                case 3:
+                    return 2000;
+                case 4:
+                    return 3000;
+                case 5:
+                    return 4000;
+                case 6:
+                    return 5000;
+                case 7:
+                    return 6000;
+                case 8:
+                    return 7000;
+                case 9:
+                    return 8000;
+                case 10:
+                    return 9000;
+                case 11:
+                    return 10000;
+                case 12:
+                    return 10000;
+                case 13:
+                    return 10000;
+                case 14:
+                    return 10000;
+                case 15:
+                    return 15000;
+                case 16:
+                    return 20000;
+                case 17:
+                    return 20000;
+                case 18:
+                    return 20000;
+                case 19:
+                    return 25000;
+                case 20:
+                    return 25000;
+                case 21:
+                    return 50000;
+                case 22:
+                    return 75000;
+                case 23:
+                    return 100000;
+                case 24:
+                    return 125000;
+                case 25:
+                    return 150000;
+                case 26:
+                    return 190000;
+                case 27:
+                    return 200000;
+                case 28:
+                    return 250000;
+                case 29:
+                    return 300000;
+                case 30:
+                    return 350000;
+                case 31:
+                    return 500000;
+                case 32:
+                    return 500000;
+                case 33:
+                    return 750000;
+                case 34:
+                    return 1000000;
+                case 35:
+                    return 1250000;
+                case 36:
+                    return 1500000;
+                case 37:
+                    return 2000000;
+                case 38:
+                    return 2500000;
+                case 39:
+                    return 1000000;
+                case 40:
+                    return 1000000;
+            }
+            return 0;
         }
 
         private async Task EvolveAllPokemonWithEnoughCandy()
@@ -403,7 +499,7 @@ namespace PokemonGo.RocketAPI.GUI
                     Logger.Write($"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
                 }
 
-                await GetCurrentLevelInformation();
+                await GetCurrentPlayerInformation();
                 await Task.Delay(3000);
             }
 
@@ -426,7 +522,7 @@ namespace PokemonGo.RocketAPI.GUI
                 // GUI Experience
                 dGrid.Rows.Add(new string[] { "Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp.ToString() });
 
-                await GetCurrentLevelInformation();
+                await GetCurrentPlayerInformation();
                 await Task.Delay(500);
             }
 
@@ -443,11 +539,11 @@ namespace PokemonGo.RocketAPI.GUI
 
             foreach (var item in items)
             {
-                var transfer = await client.RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
-                Logger.Write($"Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}", LogLevel.Info);
+                var transfer = await client.RecycleItem((ItemId)item.Item_, item.Count);
+                Logger.Write($"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
 
                 // GUI Experience
-                dGrid.Rows.Add(new string[] { "Recycled", item.Count.ToString(), ((AllEnum.ItemId)item.Item_).ToString() });
+                dGrid.Rows.Add(new string[] { "Recycled", item.Count.ToString(), ((ItemId)item.Item_).ToString() });
 
                 await Task.Delay(500);
             }
@@ -499,7 +595,7 @@ namespace PokemonGo.RocketAPI.GUI
             if (berry == null)
                 return;
 
-            var useRaspberry = await client.UseCaptureItem(encounterId, AllEnum.ItemId.ItemRazzBerry, spawnPointId);
+            var useRaspberry = await client.UseCaptureItem(encounterId, ItemId.ItemRazzBerry, spawnPointId);
             Logger.Write($"Used Rasperry. Remaining: {berry.Count}", LogLevel.Info);
             await Task.Delay(3000);
         }
@@ -531,7 +627,7 @@ namespace PokemonGo.RocketAPI.GUI
                 // Experience Counter
                 totalExperience += fortSearch.ExperienceAwarded;
 
-                await GetCurrentLevelInformation();
+                await GetCurrentPlayerInformation();
                 Logger.Write("Attempting to Capture Nearby Pokemons.");
                 await ExecuteCatchAllNearbyPokemons();
 
@@ -611,7 +707,7 @@ namespace PokemonGo.RocketAPI.GUI
                 boxPokemonName.Clear();
                 boxPokemonCaughtProb.Clear();
 
-                await GetCurrentLevelInformation();
+                await GetCurrentPlayerInformation();
 
                 if (!isFarmingActive)
                 {

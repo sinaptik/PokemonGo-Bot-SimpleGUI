@@ -58,6 +58,8 @@
             this.boxPokemonName = new System.Windows.Forms.TextBox();
             this.boxPokemonCaughtProb = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.lbPokemonsInventory = new System.Windows.Forms.Label();
+            this.lbItemsInventory = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -203,12 +205,14 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lbItemsInventory);
+            this.groupBox4.Controls.Add(this.lbPokemonsInventory);
             this.groupBox4.Controls.Add(this.lbExperience);
             this.groupBox4.Controls.Add(this.lbLevel);
             this.groupBox4.Controls.Add(this.lbName);
             this.groupBox4.Location = new System.Drawing.Point(12, 375);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(156, 74);
+            this.groupBox4.Size = new System.Drawing.Size(156, 103);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Player Information";
@@ -262,7 +266,7 @@
             this.loggingBox.Location = new System.Drawing.Point(174, 322);
             this.loggingBox.Multiline = true;
             this.loggingBox.Name = "loggingBox";
-            this.loggingBox.Size = new System.Drawing.Size(458, 127);
+            this.loggingBox.Size = new System.Drawing.Size(458, 156);
             this.loggingBox.TabIndex = 5;
             // 
             // groupBox2
@@ -388,11 +392,31 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Name";
             // 
+            // lbPokemonsInventory
+            // 
+            this.lbPokemonsInventory.AutoSize = true;
+            this.lbPokemonsInventory.Location = new System.Drawing.Point(6, 67);
+            this.lbPokemonsInventory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lbPokemonsInventory.Name = "lbPokemonsInventory";
+            this.lbPokemonsInventory.Size = new System.Drawing.Size(35, 13);
+            this.lbPokemonsInventory.TabIndex = 3;
+            this.lbPokemonsInventory.Text = "label1";
+            // 
+            // lbItemsInventory
+            // 
+            this.lbItemsInventory.AutoSize = true;
+            this.lbItemsInventory.Location = new System.Drawing.Point(6, 83);
+            this.lbItemsInventory.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lbItemsInventory.Name = "lbItemsInventory";
+            this.lbItemsInventory.Size = new System.Drawing.Size(35, 13);
+            this.lbItemsInventory.TabIndex = 4;
+            this.lbItemsInventory.Text = "label1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 454);
+            this.ClientSize = new System.Drawing.Size(644, 489);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.loggingBox);
@@ -454,6 +478,8 @@
         private System.Windows.Forms.TextBox boxPokemonCaughtProb;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lbExperience;
+        private System.Windows.Forms.Label lbItemsInventory;
+        private System.Windows.Forms.Label lbPokemonsInventory;
     }
 }
 

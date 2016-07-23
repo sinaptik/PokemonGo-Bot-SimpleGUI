@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.GUI
             this.maxLogLevel = maxLogLevel;
         }
         
-        public void Write(string message, LogLevel level = LogLevel.Info)
+        public void Write(string message, LogLevel level = LogLevel.Info, ConsoleColor color = ConsoleColor.White)
         {
             if (level > maxLogLevel)
                 return;

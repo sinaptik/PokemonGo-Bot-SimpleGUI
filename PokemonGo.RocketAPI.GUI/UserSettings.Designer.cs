@@ -37,18 +37,6 @@ namespace PokemonGo.RocketAPI.GUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("username")]
-        public string PtcUsername {
-            get {
-                return ((string)(this["PtcUsername"]));
-            }
-            set {
-                this["PtcUsername"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("pw")]
         public string PtcPassword {
             get {
@@ -73,6 +61,114 @@ namespace PokemonGo.RocketAPI.GUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public double DefaultAltitude {
+            get {
+                return ((double)(this["DefaultAltitude"]));
+            }
+            set {
+                this["DefaultAltitude"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("85")]
+        public float KeepMinIVPercentage {
+            get {
+                return ((float)(this["KeepMinIVPercentage"]));
+            }
+            set {
+                this["KeepMinIVPercentage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int KeepMinCP {
+            get {
+                return ((int)(this["KeepMinCP"]));
+            }
+            set {
+                this["KeepMinCP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public double WalkingSpeedInKilometerPerHour {
+            get {
+                return ((double)(this["WalkingSpeedInKilometerPerHour"]));
+            }
+            set {
+                this["WalkingSpeedInKilometerPerHour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EvolveAllPokemonWithEnoughCandy {
+            get {
+                return ((bool)(this["EvolveAllPokemonWithEnoughCandy"]));
+            }
+            set {
+                this["EvolveAllPokemonWithEnoughCandy"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool TransferDuplicatePokemon {
+            get {
+                return ((bool)(this["TransferDuplicatePokemon"]));
+            }
+            set {
+                this["TransferDuplicatePokemon"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int DelayBetweenMove {
+            get {
+                return ((int)(this["DelayBetweenMove"]));
+            }
+            set {
+                this["DelayBetweenMove"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UsePokemonToNotCatchFilter {
+            get {
+                return ((bool)(this["UsePokemonToNotCatchFilter"]));
+            }
+            set {
+                this["UsePokemonToNotCatchFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("username")]
+        public string PtcUsername {
+            get {
+                return ((string)(this["PtcUsername"]));
+            }
+            set {
+                this["PtcUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("51.501663")]
         public double DefaultLatitude {
             get {
@@ -92,18 +188,6 @@ namespace PokemonGo.RocketAPI.GUI {
             }
             set {
                 this["DefaultLongitude"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
-        public double DefaultAltitude {
-            get {
-                return ((double)(this["DefaultAltitude"]));
-            }
-            set {
-                this["DefaultAltitude"] = value;
             }
         }
     }
