@@ -58,6 +58,7 @@ namespace PokemonGo.RocketAPI.GUI
                 await displayLoginWindow();
                 setProfileInformation();
                 await GetCurrentLevelInformation();
+                await preflightCheck();
             }
             catch
             {
@@ -82,20 +83,13 @@ namespace PokemonGo.RocketAPI.GUI
             if (loginForm.auth == AuthType.Google)
                 await loginGoogle();
 
+            // Close the Login Form
             loginForm.Close();
         }
 
         private void setProfileInformation()
         {
-            try
-            {
-                lbName.Text = profile.Profile.Username;
-            }
-            catch
-            {
-                lbName.Text = "Unable to Retrieve Name";
-            }
-            
+            lbName.Text = profile.Profile.Username ?? "N/A";
         }
 
         private void startLogger()
@@ -129,7 +123,7 @@ namespace PokemonGo.RocketAPI.GUI
                 this.profile = await client.GetProfile();
                 enableButtons();
             }
-            catch (Exception ex)
+            catch
             {
                 Logger.Write("Unable to Connect using the Google Token.");
             }
@@ -161,7 +155,7 @@ namespace PokemonGo.RocketAPI.GUI
                 this.profile = await client.GetProfile();
                 enableButtons();
             }         
-            catch(Exception ex)
+            catch
             {
                 Logger.Write("Unable to Connect using the PTC Credentials.");
             }
@@ -178,8 +172,44 @@ namespace PokemonGo.RocketAPI.GUI
             Logger.Write("Ready to Work.");
         }
 
-        private void btnStartFarming_Click(object sender, EventArgs e)
+        private async Task<bool> preflightCheck()
         {
+            // Get Pokemons and Inventory
+            var myItems = await inventory.GetItems();
+            var myPokemons = await inventory.GetPokemons();            
+
+            // Write to Console
+            Logger.Write($"Items in Bag: {myItems.Select(i => i.Count).Sum()}/350.");
+            Logger.Write($"Pokemons in Bag: {myPokemons.Count()}/250.");
+
+            // Checker for Inventory
+            if (myItems.Select(i => i.Count).Sum() >= 350)
+            {
+                Logger.Write("Unable to Start Farming: You need to have free space for Items.");
+                return false;
+            }
+
+            // Checker for Pokemons
+            if (myPokemons.Count() >= 241) // Eggs are Included in the total count (9/9)
+            {
+                Logger.Write("Unable to Start Farming: You need to have free space for Pokemons.");
+                return false;
+            }
+
+            // Ready to Fly
+            Logger.Write("Inventory and Pokemon Space, Ready.");
+            return true;
+        }
+
+        ///////////////////
+        // Buttons Logic //
+        ///////////////////
+
+        private async void btnStartFarming_Click(object sender, EventArgs e)
+        {
+            if (!await preflightCheck())
+                return;
+
             // Disable Button
             btnStartFarming.Enabled = false;
             btnEvolvePokemons.Enabled = false;
