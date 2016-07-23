@@ -80,10 +80,15 @@ namespace PokemonGo.RocketAPI.GUI
             {
                 double.Parse(UserSettings.Default.DefaultLatitude.ToString());
                 double.Parse(UserSettings.Default.DefaultLongitude.ToString());
+
+                if (UserSettings.Default.DefaultLatitude == 0 || UserSettings.Default.DefaultLongitude == 0)
+                    throw new FormatException();
             }
             catch
             {
-                MessageBox.Show("You need to declare a location.");
+                MessageBox.Show("You need to declare a valid starting location.", "Safety Check");
+                MessageBox.Show("To protect your account of a possible soft ban, the software will close.", "Safety Check");
+                Application.Exit();
             }
 
             // Display Starting Location
