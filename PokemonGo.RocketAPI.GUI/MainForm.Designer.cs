@@ -429,7 +429,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Pokemon Go Bot - SimpleGUI v0.10 (Beta)";
+            this.Text = "Pokemon Go Bot - SimpleGUI v0.11 (Beta)";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
