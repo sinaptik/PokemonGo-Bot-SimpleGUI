@@ -531,25 +531,34 @@ namespace PokemonGo.RocketAPI.GUI
         }
 
         private async Task RecycleItems()
-        {
-            // Logging
-            Logger.Write("Recycling Items to Free Space");
-
-            var items = await inventory.GetItemsToRecycle(this.settings);
-
-            foreach (var item in items)
+        {   
+            try
             {
-                var transfer = await client.RecycleItem((ItemId)item.Item_, item.Count);
-                Logger.Write($"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
+                // Logging
+                Logger.Write("Recycling Items to Free Space");
 
-                // GUI Experience
-                dGrid.Rows.Add(new string[] { "Recycled", item.Count.ToString(), ((ItemId)item.Item_).ToString() });
+                var items = await inventory.GetItemsToRecycle(this.settings);
 
-                await Task.Delay(500);
+                foreach (var item in items)
+                {
+                    var transfer = await client.RecycleItem((ItemId)item.Item_, item.Count);
+                    Logger.Write($"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
+
+                    // GUI Experience
+                    dGrid.Rows.Add(new string[] { "Recycled", item.Count.ToString(), ((ItemId)item.Item_).ToString() });
+
+                    await Task.Delay(500);
+                }
+
+
+                // Logging
+                Logger.Write("Recycling Complete.");
             }
-
-            // Logging
-            Logger.Write("Recycling Complete.");
+            catch (Exception ex)
+            {
+                Logger.Write($"Error Details: {ex.Message}");
+                Logger.Write("Unable to Complete Items Recycling.");
+            }            
         }
 
         private async Task<MiscEnums.Item> GetBestBall(int? pokemonCp)

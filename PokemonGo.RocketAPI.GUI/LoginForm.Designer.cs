@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.btnGoogleLogin = new System.Windows.Forms.Button();
             this.btnPtcLogin = new System.Windows.Forms.Button();
             this.boxPassword = new System.Windows.Forms.TextBox();
@@ -104,6 +105,7 @@
             this.Controls.Add(this.btnPtcLogin);
             this.Controls.Add(this.btnGoogleLogin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login Form";
