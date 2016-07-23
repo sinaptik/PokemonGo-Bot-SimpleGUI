@@ -157,6 +157,8 @@ namespace PokemonGo.RocketAPI.GUI
             catch
             {
                 Logger.Write("Unable to Connect using the Google Token.");
+                MessageBox.Show("Unable to Authenticate with Login Server.", "Login Problem");
+                Application.Exit();
             }
         }
 
@@ -189,7 +191,8 @@ namespace PokemonGo.RocketAPI.GUI
             catch(Exception ex)
             {
                 Logger.Write("Unable to Connect using the PTC Credentials.");
-                Logger.Write(ex.Message);
+                MessageBox.Show("Unable to Authenticate with Login Server.", "Login Problem");
+                Application.Exit();
             }
         }
 
