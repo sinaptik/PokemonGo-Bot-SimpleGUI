@@ -492,7 +492,7 @@ namespace PokemonGo.RocketAPI.GUI
 
                     // GUI Experience
                     totalExperience += evolvePokemonOutProto.ExpAwarded;
-                    dGrid.Rows.Add(new string[] { "Evolved", pokemon.PokemonId.ToString(), evolvePokemonOutProto.ExpAwarded.ToString() });
+                    dGrid.Rows.Add("Evolved", pokemon.PokemonId.ToString(), evolvePokemonOutProto.ExpAwarded);
                 }                    
                 else
                 {
@@ -519,8 +519,8 @@ namespace PokemonGo.RocketAPI.GUI
                 var transfer = await client.TransferPokemon(duplicatePokemon.Id);
                 Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP", LogLevel.Info);
 
-                // GUI Experience
-                dGrid.Rows.Add(new string[] { "Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp.ToString() });
+                // Add Row to DataGrid
+                dGrid.Rows.Add("Transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
 
                 await GetCurrentPlayerInformation();
                 await Task.Delay(500);
@@ -545,7 +545,7 @@ namespace PokemonGo.RocketAPI.GUI
                     Logger.Write($"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
 
                     // GUI Experience
-                    dGrid.Rows.Add(new string[] { "Recycled", item.Count.ToString(), ((ItemId)item.Item_).ToString() });
+                    dGrid.Rows.Add("Recycled", item.Count, ((ItemId)item.Item_).ToString());
 
                     await Task.Delay(500);
                 }
@@ -696,21 +696,13 @@ namespace PokemonGo.RocketAPI.GUI
                     Logger.Write("Gained " + fightExperience + " XP.");
                     pokemonCaughtCount++;
 
-                    // GUI Experience
-                    dGrid.Rows.Add(new string[] {
-                        "Captured",
-                        pokemon.PokemonId.ToString(),
-                        encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp.ToString()
-                    });
+                    // Add Row to the DataGrid
+                    dGrid.Rows.Add("Captured", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
                 }
                 else
                 {
-                    // GUI Experience
-                    dGrid.Rows.Add(new string[] {
-                        "Ran Away",
-                        pokemon.PokemonId.ToString(),
-                        encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp.ToString()
-                    });
+                    // Add Row to the DataGrid
+                    dGrid.Rows.Add("Ran Away", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
                 }
 
                 boxPokemonName.Clear();
