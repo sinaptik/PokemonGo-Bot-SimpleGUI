@@ -47,6 +47,7 @@ namespace PokemonGo.RocketAPI.GUI
             lbExperience.Text = string.Empty;
             lbItemsInventory.Text = string.Empty;
             lbPokemonsInventory.Text = string.Empty;
+            lbLuckyEggs.Text = string.Empty;
 
             // Clear Experience
             totalExperience = 0;
@@ -208,14 +209,29 @@ namespace PokemonGo.RocketAPI.GUI
             Logger.Write("Ready to Work.");
         }
 
+        private void SetLuckyEggBtnText(int nrOfLuckyEggs)
+        {
+            if (nrOfLuckyEggs == 0)
+            {
+                btnLuckyEgg.Enabled = false;
+            }
+            else
+            {
+                btnLuckyEgg.Enabled = true;
+                btnLuckyEgg.Text = $"Use Lucky Egg ({ nrOfLuckyEggs.ToString() })";
+            }
+            
+        }
+
         private async Task<bool> preflightCheck()
         {
             // Get Pokemons and Inventory
             var myItems = await inventory.GetItems();
-            var myPokemons = await inventory.GetPokemons();            
-
+            var myPokemons = await inventory.GetPokemons();
+            
             // Write to Console
             Logger.Write($"Items in Bag: {myItems.Select(i => i.Count).Sum()}/350.");
+            Logger.Write($"Lucky eggs in Bag: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }");
             Logger.Write($"Pokemons in Bag: {myPokemons.Count()}/250.");
 
             // Checker for Inventory
@@ -289,6 +305,11 @@ namespace PokemonGo.RocketAPI.GUI
             // Close the Timer
             isFarmingActive = false;
             stopBottingSession();
+        }
+
+        private async void btnLuckyEgg_Click(object sender, EventArgs e)
+        {
+            await UseLuckyEgg();
         }
 
         private async void btnEvolvePokemons_Click(object sender, EventArgs e)
@@ -462,6 +483,8 @@ namespace PokemonGo.RocketAPI.GUI
             // Write to Console
             lbItemsInventory.Text = $"Inventory: {myItems.Select(i => i.Count).Sum()}/350";
             lbPokemonsInventory.Text = $"Pokemons: {myPokemons.Count()}/250";
+            lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }";
+            SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count);
         }
 
         public static int GetXPDiff(int level)
@@ -673,8 +696,8 @@ namespace PokemonGo.RocketAPI.GUI
 
         public async Task UseBerry(ulong encounterId, string spawnPointId)
         {
-            var inventoryBalls = await inventory.GetItems();
-            var berries = inventoryBalls.Where(p => (ItemId)p.Item_ == ItemId.ItemRazzBerry);
+            var inventoryItems = await inventory.GetItems();
+            var berries = inventoryItems.Where(p => (ItemId)p.Item_ == ItemId.ItemRazzBerry);
             var berry = berries.FirstOrDefault();
 
             if (berry == null)
@@ -683,6 +706,21 @@ namespace PokemonGo.RocketAPI.GUI
             var useRaspberry = await client.UseCaptureItem(encounterId, ItemId.ItemRazzBerry, spawnPointId);
             Logger.Write($"Used Rasperry. Remaining: {berry.Count}", LogLevel.Info);
             await Task.Delay(3000);
+        }
+
+        public async Task UseLuckyEgg()
+        {
+            var inventoryItems = await inventory.GetItems();
+            var luckyEggs = inventoryItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
+            var luckyEgg = luckyEggs.FirstOrDefault();
+
+            if (luckyEgg == null)
+                return;
+            
+            var useLuckyEgg = await client.UseItemExpBoost(ItemId.ItemLuckyEgg);
+            Logger.Write($"Used LuckyEgg. Remaining: {luckyEgg.Count}", LogLevel.Info);
+
+            await GetCurrentPlayerInformation();
         }
 
         private async Task ExecuteFarmingPokestopsAndPokemons()
@@ -705,7 +743,6 @@ namespace PokemonGo.RocketAPI.GUI
                 count++;                               
 
                 var fortSearch = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
-
                 Logger.Write($"Loot -> Gems: { fortSearch.GemsAwarded}, Eggs: {fortSearch.PokemonDataEgg} Items: {StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded)}", LogLevel.Info);
                 Logger.Write("Gained " + fortSearch.ExperienceAwarded + " XP.");
 
@@ -751,7 +788,7 @@ namespace PokemonGo.RocketAPI.GUI
                 {
                     if (encounterPokemonResponse?.CaptureProbability.CaptureProbability_.First() < 0.4)
                     {
-                        //Throw berry is we can
+                        //Throw berry if we can
                         await UseBerry(pokemon.EncounterId, pokemon.SpawnpointId);
                     }
 
@@ -796,7 +833,5 @@ namespace PokemonGo.RocketAPI.GUI
                 await Task.Delay(10000);
             }
         }
-
-
     }
 }
