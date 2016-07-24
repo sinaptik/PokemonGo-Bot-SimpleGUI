@@ -630,6 +630,8 @@ namespace PokemonGo.RocketAPI.GUI
                 else
                 {
                     Logger.Write($"Will not transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP and an IV of { IV }", LogLevel.Info);
+                    // Add Row to DataGrid
+                    dGrid.Rows.Insert(0, "Not transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
                 }
 
             }
