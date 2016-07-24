@@ -211,6 +211,7 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void SetLuckyEggBtnText(int nrOfLuckyEggs)
         {
+            btnLuckyEgg.Text = $"Use Lucky Egg ({ nrOfLuckyEggs.ToString() })";
             if (nrOfLuckyEggs == 0)
             {
                 btnLuckyEgg.Enabled = false;
@@ -218,9 +219,8 @@ namespace PokemonGo.RocketAPI.GUI
             else
             {
                 btnLuckyEgg.Enabled = true;
-                btnLuckyEgg.Text = $"Use Lucky Egg ({ nrOfLuckyEggs.ToString() })";
+                
             }
-            
         }
 
         private async Task<bool> preflightCheck()
@@ -727,7 +727,7 @@ namespace PokemonGo.RocketAPI.GUI
                 return;
             
             var useLuckyEgg = await client.UseItemExpBoost(ItemId.ItemLuckyEgg);
-            Logger.Write($"Used LuckyEgg. Remaining: {luckyEgg.Count}", LogLevel.Info);
+            Logger.Write($"Used LuckyEgg. Remaining: {luckyEgg.Count - 1}", LogLevel.Info);
 
             await GetCurrentPlayerInformation();
         }
