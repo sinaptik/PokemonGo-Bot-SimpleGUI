@@ -38,9 +38,16 @@ namespace PokemonGo.RocketAPI.GUI
         {
             // Good Farming Locations (Create Issue in GutHub to Add More)
             comboLocations.Items.Add(new Loc() { name = "London, England", lat = 51.501663, lng = -0.14102 });
+            comboLocations.Items.Add(new Loc() { name = "Myrtle Beach, SC, USA", lat = 33.714451, lng = -78.877194 });
             comboLocations.Items.Add(new Loc() { name = "Santa Monica Pier, LA, USA", lat = 34.00873594425199, lng = -118.49761247634888 });
+            comboLocations.Items.Add(new Loc() { name = "Long Beach, CA, USA", lat = 34.00873594425199, lng = -118.49761247634888 });
+            comboLocations.Items.Add(new Loc() { name = "Seattle, WA, USA", lat = 47.626680, lng = -122.335884 });
             comboLocations.Items.Add(new Loc() { name = "Bryant Park, NY, USA", lat = 40.75320648472645, lng = -73.98390769958496 });
+            comboLocations.Items.Add(new Loc() { name = "Vancouver, BC, Canada", lat = 45.6298963412979, lng = -122.67196521162987 });
             comboLocations.Items.Add(new Loc() { name = "Sydney, Australia", lat = -33.870273020353416, lng = 151.20878219604492 });
+            comboLocations.Items.Add(new Loc() { name = "Achen, Germany", lat = 50.776309, lng = 6.083505  });
+            comboLocations.Items.Add(new Loc() { name = "Hamburg, Germany", lat = 53.5588061, lng = 10.057689399999958  });
+            comboLocations.Items.Add(new Loc() { name = "Dusseldorf, Germany", lat = 51.224382, lng = 6.778896   });
             comboLocations.Items.Add(new Loc() { name = "Tokyo, Japan", lat = 35.69051125265253, lng = 139.68954205513 });
         }        
 
