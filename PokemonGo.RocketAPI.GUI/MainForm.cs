@@ -828,7 +828,7 @@ namespace PokemonGo.RocketAPI.GUI
                 else
                 {
                     // Add Row to the DataGrid
-                    dGrid.Rows.Insert(0, "Ran Away", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
+                    dGrid.Rows.Insert(0, "Ran Away", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, pokemonIV);
                 }
 
                 boxPokemonName.Clear();
