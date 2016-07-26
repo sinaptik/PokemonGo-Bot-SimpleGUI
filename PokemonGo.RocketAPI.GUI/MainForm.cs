@@ -284,10 +284,11 @@ namespace PokemonGo.RocketAPI.GUI
             dGrid.Rows.Clear();
 
             // Prepare Grid
-            dGrid.ColumnCount = 3;
+            dGrid.ColumnCount = 4;
             dGrid.Columns[0].Name = "Action";
             dGrid.Columns[1].Name = "Pokemon";
             dGrid.Columns[2].Name = "CP";
+            dGrid.Columns[3].Name = "IV";
         }
 
         private void btnStopFarming_Click(object sender, EventArgs e)
@@ -787,6 +788,7 @@ namespace PokemonGo.RocketAPI.GUI
                 var update = await client.UpdatePlayerLocation(pokemon.Latitude, pokemon.Longitude, settings.DefaultAltitude);
                 var encounterPokemonResponse = await client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);
                 var pokemonCP = encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp;
+                var pokemonIV = Logic.Logic.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon?.PokemonData) + "%";
                 var pokeball = await GetBestBall(pokemonCP);
 
                 Logger.Write($"Fighting {pokemon.PokemonId} with Capture Probability of {(encounterPokemonResponse?.CaptureProbability.CaptureProbability_.First())*100:0.0}%");
@@ -821,7 +823,7 @@ namespace PokemonGo.RocketAPI.GUI
                     pokemonCaughtCount++;
 
                     // Add Row to the DataGrid
-                    dGrid.Rows.Insert(0, "Captured", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp);
+                    dGrid.Rows.Insert(0, "Captured", pokemon.PokemonId.ToString(), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, pokemonIV);
                 }
                 else
                 {
