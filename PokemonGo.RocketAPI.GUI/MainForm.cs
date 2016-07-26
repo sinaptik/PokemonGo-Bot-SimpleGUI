@@ -205,6 +205,7 @@ namespace PokemonGo.RocketAPI.GUI
             btnRecycleItems.Enabled = true;
             btnEvolvePokemons.Enabled = true;
             cbKeepPkToEvolve.Enabled = true;
+            lbCanEvolveCont.Enabled = true;
 
             Logger.Write("Ready to Work.");
         }
