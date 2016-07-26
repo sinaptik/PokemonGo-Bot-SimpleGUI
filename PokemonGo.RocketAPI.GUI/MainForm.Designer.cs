@@ -105,6 +105,7 @@
             // lbCanEvolveCont
             // 
             this.lbCanEvolveCont.AutoSize = true;
+            this.lbCanEvolveCont.Enabled = false;
             this.lbCanEvolveCont.Location = new System.Drawing.Point(37, 245);
             this.lbCanEvolveCont.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbCanEvolveCont.Name = "lbCanEvolveCont";
