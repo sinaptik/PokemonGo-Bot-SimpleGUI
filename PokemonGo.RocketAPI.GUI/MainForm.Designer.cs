@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnUseIncense = new System.Windows.Forms.Button();
             this.btnLuckyEgg = new System.Windows.Forms.Button();
             this.lbCanEvolveCont = new System.Windows.Forms.Label();
             this.cbKeepPkToEvolve = new System.Windows.Forms.CheckBox();
@@ -43,6 +44,7 @@
             this.lbPkmnHr = new System.Windows.Forms.Label();
             this.lbExpHour = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lbIncense = new System.Windows.Forms.Label();
             this.lbLuckyEggs = new System.Windows.Forms.Label();
             this.lbItemsInventory = new System.Windows.Forms.Label();
             this.lbPokemonsInventory = new System.Windows.Forms.Label();
@@ -63,8 +65,7 @@
             this.boxPokemonName = new System.Windows.Forms.TextBox();
             this.boxPokemonCaughtProb = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.lbIncense = new System.Windows.Forms.Label();
-            this.btnUseIncense = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -90,6 +91,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bot Control";
+            // 
+            // btnUseIncense
+            // 
+            this.btnUseIncense.Enabled = false;
+            this.btnUseIncense.Location = new System.Drawing.Point(6, 106);
+            this.btnUseIncense.Name = "btnUseIncense";
+            this.btnUseIncense.Size = new System.Drawing.Size(144, 23);
+            this.btnUseIncense.TabIndex = 8;
+            this.btnUseIncense.Text = "Use Incense";
+            this.btnUseIncense.UseVisualStyleBackColor = true;
+            this.btnUseIncense.Click += new System.EventHandler(this.btnUseIncense_Click);
             // 
             // btnLuckyEgg
             // 
@@ -224,6 +236,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.button1);
             this.groupBox4.Controls.Add(this.lbIncense);
             this.groupBox4.Controls.Add(this.lbLuckyEggs);
             this.groupBox4.Controls.Add(this.lbItemsInventory);
@@ -237,6 +250,16 @@
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Player Information";
+            // 
+            // lbIncense
+            // 
+            this.lbIncense.AutoSize = true;
+            this.lbIncense.Location = new System.Drawing.Point(6, 116);
+            this.lbIncense.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lbIncense.Name = "lbIncense";
+            this.lbIncense.Size = new System.Drawing.Size(53, 13);
+            this.lbIncense.TabIndex = 6;
+            this.lbIncense.Text = "lbIncense";
             // 
             // lbLuckyEggs
             // 
@@ -443,26 +466,16 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Name";
             // 
-            // lbIncense
+            // button1
             // 
-            this.lbIncense.AutoSize = true;
-            this.lbIncense.Location = new System.Drawing.Point(6, 116);
-            this.lbIncense.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
-            this.lbIncense.Name = "lbIncense";
-            this.lbIncense.Size = new System.Drawing.Size(53, 13);
-            this.lbIncense.TabIndex = 6;
-            this.lbIncense.Text = "lbIncense";
-            // 
-            // btnUseIncense
-            // 
-            this.btnUseIncense.Enabled = false;
-            this.btnUseIncense.Location = new System.Drawing.Point(6, 106);
-            this.btnUseIncense.Name = "btnUseIncense";
-            this.btnUseIncense.Size = new System.Drawing.Size(144, 23);
-            this.btnUseIncense.TabIndex = 8;
-            this.btnUseIncense.Text = "Use Incense";
-            this.btnUseIncense.UseVisualStyleBackColor = true;
-            this.btnUseIncense.Click += new System.EventHandler(this.btnUseIncense_Click);
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(96, 99);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(54, 30);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Extra";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -536,6 +549,7 @@
         private System.Windows.Forms.Label lbLuckyEggs;
         private System.Windows.Forms.Label lbIncense;
         private System.Windows.Forms.Button btnUseIncense;
+        private System.Windows.Forms.Button button1;
     }
 }
 
