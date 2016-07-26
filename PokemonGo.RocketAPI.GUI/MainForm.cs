@@ -221,7 +221,19 @@ namespace PokemonGo.RocketAPI.GUI
             else
             {
                 btnLuckyEgg.Enabled = true;
-                
+            }
+        }
+
+        private void SetIncensesBtnText(int nrOfIncenses)
+        {
+            btnUseIncense.Text = $"Use Incense ({ nrOfIncenses.ToString() })";
+            if (nrOfIncenses == 0)
+            {
+                btnUseIncense.Enabled = false;
+            }
+            else
+            {
+                btnUseIncense.Enabled = true;
             }
         }
 
@@ -494,6 +506,7 @@ namespace PokemonGo.RocketAPI.GUI
             lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }";
             lbIncense.Text = $"Incenses: {myItems.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).Count }";
             SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count);
+            SetIncensesBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault().Count);
         }
 
         public static int GetXPDiff(int level)
@@ -642,7 +655,6 @@ namespace PokemonGo.RocketAPI.GUI
                     // Add Row to DataGrid
                     dGrid.Rows.Insert(0, "Not transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
                 }
-
             }
 
             // Logging
@@ -669,6 +681,7 @@ namespace PokemonGo.RocketAPI.GUI
                     await Task.Delay(500);
                 }
 
+                await GetCurrentPlayerInformation();
 
                 // Logging
                 Logger.Write("Recycling Complete.");
@@ -752,7 +765,7 @@ namespace PokemonGo.RocketAPI.GUI
             if (incense == null)
                 return;
 
-            var useIncense = await client.UseItemExpBoost(ItemId.ItemIncenseOrdinary);
+            var useIncense = await client.UseItemIncense(ItemId.ItemIncenseOrdinary);
             Logger.Write($"Used Incense. Remaining: {incense.Count - 1}", LogLevel.Info);
 
             await GetCurrentPlayerInformation();
