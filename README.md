@@ -1,6 +1,6 @@
 # Pokemon Go Bot - SimpleGUI
 
-This project is to create a simple GUI application for the Pokemon Go Rocket API. I will be adding new features as they become stable(ish)in the Necronomicon project and fixing bugs. Raise an issue if you find a problem or have a feature request.
+This project is to create a simple GUI application for the Pokemon Go Rocket API.
 
 ![Application Demo](http://i.imgur.com/ea7wnm8.png)
 
