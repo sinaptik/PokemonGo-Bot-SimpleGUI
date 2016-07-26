@@ -48,6 +48,7 @@ namespace PokemonGo.RocketAPI.GUI
             lbItemsInventory.Text = string.Empty;
             lbPokemonsInventory.Text = string.Empty;
             lbLuckyEggs.Text = string.Empty;
+            lbIncense.Text = string.Empty;
 
             // Clear Experience
             totalExperience = 0;
@@ -314,6 +315,11 @@ namespace PokemonGo.RocketAPI.GUI
             await UseLuckyEgg();
         }
 
+        private async void btnUseIncense_Click(object sender, EventArgs e)
+        {
+            await UseIncense();
+        }
+
         private async void btnEvolvePokemons_Click(object sender, EventArgs e)
         {
             // Clear Grid
@@ -486,6 +492,7 @@ namespace PokemonGo.RocketAPI.GUI
             lbItemsInventory.Text = $"Inventory: {myItems.Select(i => i.Count).Sum()}/350";
             lbPokemonsInventory.Text = $"Pokemons: {myPokemons.Count()}/250";
             lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }";
+            lbIncense.Text = $"Incenses: {myItems.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).Count }";
             SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count);
         }
 
@@ -732,6 +739,21 @@ namespace PokemonGo.RocketAPI.GUI
             
             var useLuckyEgg = await client.UseItemExpBoost(ItemId.ItemLuckyEgg);
             Logger.Write($"Used LuckyEgg. Remaining: {luckyEgg.Count - 1}", LogLevel.Info);
+
+            await GetCurrentPlayerInformation();
+        }
+
+        public async Task UseIncense()
+        {
+            var inventoryItems = await inventory.GetItems();
+            var incenses = inventoryItems.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary);
+            var incense = incenses.FirstOrDefault();
+
+            if (incense == null)
+                return;
+
+            var useIncense = await client.UseItemExpBoost(ItemId.ItemIncenseOrdinary);
+            Logger.Write($"Used Incense. Remaining: {incense.Count - 1}", LogLevel.Info);
 
             await GetCurrentPlayerInformation();
         }
