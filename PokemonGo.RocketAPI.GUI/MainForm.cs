@@ -245,7 +245,7 @@ namespace PokemonGo.RocketAPI.GUI
             
             // Write to Console
             Logger.Write($"Items in Bag: {myItems.Select(i => i.Count).Sum()}/350.");
-            Logger.Write($"Lucky eggs in Bag: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }");
+            Logger.Write($"Lucky Eggs in Bag: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault()?.Count ?? 0 }");
             Logger.Write($"Pokemons in Bag: {myPokemons.Count()}/250.");
 
             // Checker for Inventory
@@ -503,10 +503,10 @@ namespace PokemonGo.RocketAPI.GUI
             // Write to Console
             lbItemsInventory.Text = $"Inventory: {myItems.Select(i => i.Count).Sum()}/350";
             lbPokemonsInventory.Text = $"Pokemons: {myPokemons.Count()}/250";
-            lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }";
-            lbIncense.Text = $"Incenses: {myItems.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).Count }";
-            SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count);
-            SetIncensesBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault().Count);
+            lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault()?.Count ?? 0}";
+            lbIncense.Text = $"Incenses: {myItems.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary)?.Count ?? 0}";
+            SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault()?.Count ?? 0);
+            SetIncensesBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault()?.Count ?? 0);
         }
 
         public static int GetXPDiff(int level)
