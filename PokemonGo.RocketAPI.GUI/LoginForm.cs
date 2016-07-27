@@ -37,12 +37,12 @@ namespace PokemonGo.RocketAPI.GUI
                 }
                 else
                 {
-                    MessageBox.Show("Password textbox cannot be empty");
+                    MessageBox.Show("Password textbox cannot be empty", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Username textbox cannot be empty");
+                MessageBox.Show("Username textbox cannot be empty", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
