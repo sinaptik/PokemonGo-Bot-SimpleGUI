@@ -45,5 +45,13 @@ namespace PokemonGo.RocketAPI.GUI
             if (e.KeyCode == Keys.Enter)
                 btnPtcLogin_Click(null, null);
         }
+
+        private void btnResetToken_Click(object sender, EventArgs e)
+        {
+            UserSettings.Default.GoogleRefreshToken = string.Empty;
+            UserSettings.Default.Save();
+
+            btnGoogleLogin_Click(null, null);
+        }
     }
 }
