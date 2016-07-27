@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using PokemonGo.RocketAPI.Enums;
 using System.Net;
 using System.IO;
+using PokemonGo.RocketAPI.GeneratedCode;
 
 namespace PokemonGo.RocketAPI.GUI
 {
@@ -29,6 +30,7 @@ namespace PokemonGo.RocketAPI.GUI
         }    
         private async Task Execute()
         {            
+            pokemonListView.Clear();
             var inventory = await client.GetInventory();
 
             var pokemons =
@@ -61,6 +63,7 @@ namespace PokemonGo.RocketAPI.GUI
                 listViewItem.ImageKey = pokemon.PokemonId.ToString();
                 var pokemonIv = Math.Floor(Logic.Logic.CalculatePokemonPerfection(pokemon));
                 listViewItem.Text = string.Format("{0}\nCP {1} IV {2}%", pokemon.PokemonId, pokemon.Cp, pokemonIv);
+                listViewItem.Tag = pokemon.Id;
                 listViewItem.ToolTipText = "Candy: " + currentCandy;
 
                 pokemonListView.Items.Add(listViewItem);
@@ -73,6 +76,23 @@ namespace PokemonGo.RocketAPI.GUI
             WebResponse res = await req.GetResponseAsync();
             Stream resStream = res.GetResponseStream();
             return new Bitmap(resStream);
+        }
+
+        private void pokemonListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show(pokemonListView.SelectedItems[0].Tag.ToString());
+        }
+
+        private async void btnTransfer_Click(object sender, EventArgs e)
+        {
+            var id = (ulong) pokemonListView.SelectedItems[0].Tag;
+
+            DialogResult dialogResult = MessageBox.Show("Do you really want to transfer this pokemon?\nYou will never see them again :(", "Transfer.", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                await client.TransferPokemon(id);
+                Execute();
+            }
         }
     }
 }
