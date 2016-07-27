@@ -60,7 +60,7 @@ namespace PokemonGo.RocketAPI.GUI
                 
                 listViewItem.ImageKey = pokemon.PokemonId.ToString();
                 var pokemonIv = Math.Floor(Logic.Logic.CalculatePokemonPerfection(pokemon));
-                listViewItem.Text = string.Format("{0}\nCP {1} IV {2}", pokemon.PokemonId, pokemon.Cp, pokemonIv);
+                listViewItem.Text = string.Format("{0}\nCP {1} IV {2}%", pokemon.PokemonId, pokemon.Cp, pokemonIv);
                 listViewItem.ToolTipText = "Candy: " + currentCandy;
 
                 pokemonListView.Items.Add(listViewItem);
