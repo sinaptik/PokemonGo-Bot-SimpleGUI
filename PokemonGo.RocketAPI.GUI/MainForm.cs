@@ -895,5 +895,11 @@ namespace PokemonGo.RocketAPI.GUI
                             $"Small Rattata Caught: {stats.SmallRattataCaught}\n" +
                             $"Unique Pokedex Entries: {stats.UniquePokedexEntries}");
         }
+
+        private void btnMyPokemon_Click(object sender, EventArgs e)
+        {
+            var form = new PokemonForm();
+            form.Show();
+        }
     }
 }

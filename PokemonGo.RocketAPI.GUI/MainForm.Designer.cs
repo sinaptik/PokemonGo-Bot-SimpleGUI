@@ -66,6 +66,7 @@
             this.boxPokemonName = new System.Windows.Forms.TextBox();
             this.boxPokemonCaughtProb = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.btnMyPokemon = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -351,7 +352,7 @@
             this.loggingBox.Location = new System.Drawing.Point(174, 322);
             this.loggingBox.Multiline = true;
             this.loggingBox.Name = "loggingBox";
-            this.loggingBox.Size = new System.Drawing.Size(458, 216);
+            this.loggingBox.Size = new System.Drawing.Size(458, 185);
             this.loggingBox.TabIndex = 5;
             // 
             // groupBox2
@@ -477,11 +478,22 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Name";
             // 
+            // btnMyPokemon
+            // 
+            this.btnMyPokemon.Location = new System.Drawing.Point(174, 513);
+            this.btnMyPokemon.Name = "btnMyPokemon";
+            this.btnMyPokemon.Size = new System.Drawing.Size(458, 23);
+            this.btnMyPokemon.TabIndex = 8;
+            this.btnMyPokemon.Text = "My Pokemon";
+            this.btnMyPokemon.UseVisualStyleBackColor = true;
+            this.btnMyPokemon.Click += new System.EventHandler(this.btnMyPokemon_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(644, 548);
+            this.Controls.Add(this.btnMyPokemon);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.loggingBox);
@@ -550,6 +562,7 @@
         private System.Windows.Forms.Label lbIncense;
         private System.Windows.Forms.Button btnUseIncense;
         private System.Windows.Forms.Button btnExtraPlayerInformation;
+        private System.Windows.Forms.Button btnMyPokemon;
     }
 }
 
