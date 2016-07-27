@@ -480,6 +480,7 @@
             // 
             // btnMyPokemon
             // 
+            this.btnMyPokemon.Enabled = false;
             this.btnMyPokemon.Location = new System.Drawing.Point(174, 513);
             this.btnMyPokemon.Name = "btnMyPokemon";
             this.btnMyPokemon.Size = new System.Drawing.Size(458, 23);

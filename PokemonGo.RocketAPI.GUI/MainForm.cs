@@ -208,6 +208,7 @@ namespace PokemonGo.RocketAPI.GUI
             btnEvolvePokemons.Enabled = true;
             cbKeepPkToEvolve.Enabled = true;
             lbCanEvolveCont.Enabled = true;
+            btnMyPokemon.Enabled = true;
 
             Logger.Write("Ready to Work.");
         }
@@ -911,8 +912,8 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void btnMyPokemon_Click(object sender, EventArgs e)
         {
-            var form = new PokemonForm();
-            form.Show();
+            var myPokemonsListForm = new PokemonForm(client);
+            myPokemonsListForm.ShowDialog();
         }
     }
 }
