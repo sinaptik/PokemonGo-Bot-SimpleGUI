@@ -208,6 +208,7 @@ namespace PokemonGo.RocketAPI.GUI
             btnEvolvePokemons.Enabled = true;
             cbKeepPkToEvolve.Enabled = true;
             lbCanEvolveCont.Enabled = true;
+            btnMyPokemon.Enabled = true;
 
             Logger.Write("Ready to Work.");
         }
@@ -222,7 +223,19 @@ namespace PokemonGo.RocketAPI.GUI
             else
             {
                 btnLuckyEgg.Enabled = true;
-                
+            }
+        }
+
+        private void SetIncensesBtnText(int nrOfIncenses)
+        {
+            btnUseIncense.Text = $"Use Incense ({ nrOfIncenses.ToString() })";
+            if (nrOfIncenses == 0)
+            {
+                btnUseIncense.Enabled = false;
+            }
+            else
+            {
+                btnUseIncense.Enabled = true;
             }
         }
 
@@ -234,7 +247,7 @@ namespace PokemonGo.RocketAPI.GUI
             
             // Write to Console
             Logger.Write($"Items in Bag: {myItems.Select(i => i.Count).Sum()}/350.");
-            Logger.Write($"Lucky eggs in Bag: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }");
+            Logger.Write($"Lucky Eggs in Bag: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault()?.Count ?? 0 }");
             Logger.Write($"Pokemons in Bag: {myPokemons.Count()}/250.");
 
             // Checker for Inventory
@@ -492,9 +505,10 @@ namespace PokemonGo.RocketAPI.GUI
             // Write to Console
             lbItemsInventory.Text = $"Inventory: {myItems.Select(i => i.Count).Sum()}/350";
             lbPokemonsInventory.Text = $"Pokemons: {myPokemons.Count()}/250";
-            lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count }";
-            lbIncense.Text = $"Incenses: {myItems.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).Count }";
-            SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault().Count);
+            lbLuckyEggs.Text = $"Lucky Eggs: {myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault()?.Count ?? 0}";
+            lbIncense.Text = $"Incenses: {myItems.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary)?.Count ?? 0}";
+            SetLuckyEggBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault()?.Count ?? 0);
+            SetIncensesBtnText(myItems.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault()?.Count ?? 0);
         }
 
         public static int GetXPDiff(int level)
@@ -643,7 +657,6 @@ namespace PokemonGo.RocketAPI.GUI
                     // Add Row to DataGrid
                     dGrid.Rows.Insert(0, "Not transferred", duplicatePokemon.PokemonId.ToString(), duplicatePokemon.Cp);
                 }
-
             }
 
             // Logging
@@ -670,6 +683,7 @@ namespace PokemonGo.RocketAPI.GUI
                     await Task.Delay(500);
                 }
 
+                await GetCurrentPlayerInformation();
 
                 // Logging
                 Logger.Write("Recycling Complete.");
@@ -753,7 +767,7 @@ namespace PokemonGo.RocketAPI.GUI
             if (incense == null)
                 return;
 
-            var useIncense = await client.UseItemExpBoost(ItemId.ItemIncenseOrdinary);
+            var useIncense = await client.UseItemIncense(ItemId.ItemIncenseOrdinary);
             Logger.Write($"Used Incense. Remaining: {incense.Count - 1}", LogLevel.Info);
 
             await GetCurrentPlayerInformation();
@@ -898,8 +912,8 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void btnMyPokemon_Click(object sender, EventArgs e)
         {
-            var form = new PokemonForm();
-            form.Show();
+            var myPokemonsListForm = new PokemonForm(client);
+            myPokemonsListForm.ShowDialog();
         }
     }
 }

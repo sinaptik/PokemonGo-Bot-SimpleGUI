@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+# Nuget GTK
+.nuget
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

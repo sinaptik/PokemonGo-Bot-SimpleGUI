@@ -8,36 +8,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI.Enums;
+using System.Net;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.GUI
 {
     public partial class PokemonForm : Form
     {
-        Settings settings;
-        public PokemonForm()
+        Client client;
+
+        public PokemonForm(Client client)
         {
+            this.client = client;
             InitializeComponent();
-            this.settings = new Settings();
-            Execute();
         }
 
-        // Taken from my old version from on a different source
-        // which as been updated by a user.
-        private async void Execute()
+        private async void PokemonForm_Load(object sender, EventArgs e)
         {
-            var client = new Client(this.settings);
-
-            switch (settings.AuthType)
-            {
-                case AuthType.Ptc:
-                    await client.DoPtcLogin(settings.PtcUsername, settings.PtcPassword);
-                    break;
-                case AuthType.Google:
-                    await client.DoGoogleLogin();
-                    break;
-            }
-            await client.SetServer();
+            await Execute();
+        }    
+        private async Task Execute()
+        {            
             var inventory = await client.GetInventory();
+
             var pokemons =
                 inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Pokemon)
@@ -54,38 +47,32 @@ namespace PokemonGo.RocketAPI.GUI
 
             foreach (var pokemon in pokemons)
             {
-
-                var pokemonImage = GetPokemonImage((int)pokemon.PokemonId);
-                imageList.Images.Add(pokemon.PokemonId.ToString(), pokemonImage);
+                imageList.Images.Add(pokemon.PokemonId.ToString(), await GetPokemonImageAsync((int)pokemon.PokemonId));
 
                 pokemonListView.LargeImageList = imageList;
                 var listViewItem = new ListViewItem();
                 listViewItem.SubItems.Add("Cp: " + pokemon.Cp);
 
-
                 var currentCandy = families
                     .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
                     .Select(f => f.Candy)
                     .First();
-
-                //listViewItem.SubItems.Add();
+                
                 listViewItem.ImageKey = pokemon.PokemonId.ToString();
-                listViewItem.Text = string.Format("{0}\nCp: {1}", pokemon.PokemonId, pokemon.Cp);
+                var pokemonIv = Math.Floor(Logic.Logic.CalculatePokemonPerfection(pokemon));
+                listViewItem.Text = string.Format("{0}\nCP {1} IV {2}", pokemon.PokemonId, pokemon.Cp, pokemonIv);
                 listViewItem.ToolTipText = "Candy: " + currentCandy;
 
-
-                this.pokemonListView.Items.Add(listViewItem);
+                pokemonListView.Items.Add(listViewItem);
             }
         }
 
-        // Again, not my methods but it looks good so why not :+1:
-        private static Bitmap GetPokemonImage(int pokemonId)
+        private async Task<Bitmap> GetPokemonImageAsync(int pokemonId)
         {
-            var url = "http://pokeapi.co/media/sprites/pokemon/" + pokemonId + ".png";
-            PictureBox picbox = new PictureBox();
-            picbox.Load(url);
-            Bitmap bitmapRemote = (Bitmap)picbox.Image;
-            return bitmapRemote;
+            WebRequest req = WebRequest.Create("http://pokeapi.co/media/sprites/pokemon/"+pokemonId+".png");
+            WebResponse res = await req.GetResponseAsync();
+            Stream resStream = res.GetResponseStream();
+            return new Bitmap(resStream);
         }
     }
 }
