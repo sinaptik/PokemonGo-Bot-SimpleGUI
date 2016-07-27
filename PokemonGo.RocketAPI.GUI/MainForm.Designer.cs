@@ -44,6 +44,7 @@
             this.lbPkmnHr = new System.Windows.Forms.Label();
             this.lbExpHour = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnExtraPlayerInformation = new System.Windows.Forms.Button();
             this.lbIncense = new System.Windows.Forms.Label();
             this.lbLuckyEggs = new System.Windows.Forms.Label();
             this.lbItemsInventory = new System.Windows.Forms.Label();
@@ -65,7 +66,6 @@
             this.boxPokemonName = new System.Windows.Forms.TextBox();
             this.boxPokemonCaughtProb = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -236,7 +236,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button1);
+            this.groupBox4.Controls.Add(this.btnExtraPlayerInformation);
             this.groupBox4.Controls.Add(this.lbIncense);
             this.groupBox4.Controls.Add(this.lbLuckyEggs);
             this.groupBox4.Controls.Add(this.lbItemsInventory);
@@ -250,6 +250,17 @@
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Player Information";
+            // 
+            // btnExtraPlayerInformation
+            // 
+            this.btnExtraPlayerInformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExtraPlayerInformation.Location = new System.Drawing.Point(96, 99);
+            this.btnExtraPlayerInformation.Name = "btnExtraPlayerInformation";
+            this.btnExtraPlayerInformation.Size = new System.Drawing.Size(54, 30);
+            this.btnExtraPlayerInformation.TabIndex = 7;
+            this.btnExtraPlayerInformation.Text = "Extra";
+            this.btnExtraPlayerInformation.UseVisualStyleBackColor = true;
+            this.btnExtraPlayerInformation.Click += new System.EventHandler(this.btnExtraPlayerInformation_Click);
             // 
             // lbIncense
             // 
@@ -466,17 +477,6 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Name";
             // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(96, 99);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(54, 30);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Extra";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -549,7 +549,7 @@
         private System.Windows.Forms.Label lbLuckyEggs;
         private System.Windows.Forms.Label lbIncense;
         private System.Windows.Forms.Button btnUseIncense;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnExtraPlayerInformation;
     }
 }
 

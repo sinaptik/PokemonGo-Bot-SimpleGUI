@@ -871,7 +871,7 @@ namespace PokemonGo.RocketAPI.GUI
             }
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void btnExtraPlayerInformation_Click(object sender, EventArgs e)
         {
             // todo: add extra player information
             var stuff = await inventory.GetPlayerStats();
