@@ -636,9 +636,9 @@ namespace PokemonGo.RocketAPI.GUI
             foreach (var duplicatePokemon in duplicatePokemons)
             {
                 var iv = Logic.Logic.CalculatePokemonPerfection(duplicatePokemon);
-                if (iv < _settings.KeepMinIVPercentage)    
+                if (iv < _settings.KeepMinIVPercentage && duplicatePokemon.Cp < _settings.KeepMinCP)
                 {
-                    var transfer = await _client.TransferPokemon(duplicatePokemon.Id); // Redundant?
+                    var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
                     Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP and an IV of { iv }");
 
                     // Add Row to DataGrid
@@ -670,7 +670,7 @@ namespace PokemonGo.RocketAPI.GUI
 
                 foreach (var item in items)
                 {
-                    var transfer = await _client.RecycleItem((ItemId)item.Item_, item.Count); // Redundant??
+                    var transfer = await _client.RecycleItem((ItemId)item.Item_, item.Count);
                     Logger.Write($"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
 
                     // GUI Experience
