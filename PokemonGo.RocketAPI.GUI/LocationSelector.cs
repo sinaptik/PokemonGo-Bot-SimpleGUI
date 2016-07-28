@@ -100,20 +100,27 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void btnSetLocation_Click(object sender, EventArgs e)
         {
-            // Persist the Position
-            lat = MainMap.Position.Lat;
-            lng = MainMap.Position.Lng;
+            try
+            {
+                // Persist the Position
+                lat = double.Parse(boxLat.Text);
+                lng = double.Parse(boxLng.Text);
 
-            // User Settings
-            UserSettings.Default.DefaultLatitude = lat;
-            UserSettings.Default.DefaultLongitude = lng;
-            UserSettings.Default.Save();
+                // User Settings
+                UserSettings.Default.DefaultLatitude = lat;
+                UserSettings.Default.DefaultLongitude = lng;
+                UserSettings.Default.Save();
 
-            // Confirm Position Selection
-            setPos = true;
+                // Confirm Position Selection
+                setPos = true;
 
-            // Close this Window
-            this.Hide();
+                // Close this Window
+                this.Hide();
+            }
+            catch
+            {
+                MessageBox.Show("Invalid Data on Lat/Lng", "PoGo Bot");
+            }
         }
 
         private void comboLocations_SelectedIndexChanged(object sender, EventArgs e)
