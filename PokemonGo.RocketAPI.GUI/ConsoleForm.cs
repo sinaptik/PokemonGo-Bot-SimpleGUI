@@ -19,7 +19,6 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void ConsoleForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void ConsoleForm_FormClosing(object sender, FormClosingEventArgs e)

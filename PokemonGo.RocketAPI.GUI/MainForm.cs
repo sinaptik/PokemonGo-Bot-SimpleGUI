@@ -75,13 +75,14 @@ namespace PokemonGo.RocketAPI.GUI
             try
             {
                 // Load Console
-                console = new ConsoleForm();
+                console = new ConsoleForm();                
                 StartLogger();
                 CleanUp();
 
                 // Begin Process
                 await DisplayLoginWindow();
-                DisplayPositionSelector();
+                console.Show();              
+                DisplayPositionSelector();                
                 await GetCurrentPlayerInformation();
                 await PreflightCheck();
             }

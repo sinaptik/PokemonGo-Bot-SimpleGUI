@@ -17,8 +17,8 @@ namespace PokemonGo.RocketAPI.Login
     {
         private const string OauthTokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
         private const string OauthEndpoint = "https://accounts.google.com/o/oauth2/device/code";
-        private const string ClientId = "848232511240-73ri3t7plvk96pj4f85uj8otdat2alem.apps.googleusercontent.com";
-        private const string ClientSecret = "NCjF1TLi2CcY6t5mt0ZveuL7";
+        private const string ClientId = "115123608539-82psc02vs6v061njjivchf557lnimg2t.apps.googleusercontent.com";
+        private const string ClientSecret = "aTaio72-_s3PRyO5FdyU3tIJ";
 
         /// <summary>
         ///     Gets the access token from Google
@@ -60,22 +60,8 @@ namespace PokemonGo.RocketAPI.Login
             Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
 
             await Task.Delay(2000);
-            Process.Start(@"http://www.google.com/device");
-            try
-            {
-                var thread = new Thread(() => Clipboard.SetText(deviceCode.user_code)); //Copy device code
-                thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-                thread.Start();
-                thread.Join();
-            }
-            catch (ExternalException)
-            {
-                Logger.Write("Couldnt copy to clipboard, do it manually", LogLevel.Error);                
-            }
-            finally
-            {
-                Logger.Write($"Goto: http://www.google.com/device & enter {deviceCode.user_code}", LogLevel.Error);
-            }
+            Process.Start(@"http://www.google.com/device");            
+            Logger.Write($"Goto: http://www.google.com/device & enter {deviceCode.user_code}", LogLevel.Error);
 
             return deviceCode;
         }

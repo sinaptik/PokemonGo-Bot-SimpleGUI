@@ -13,6 +13,7 @@ using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Login;
 using static PokemonGo.RocketAPI.GeneratedCode.Response.Types;
+using System.Windows.Forms;
 
 #endregion
 
@@ -105,7 +106,7 @@ namespace PokemonGo.RocketAPI
                     _httpClient.PostProtoPayload<Request, CatchPokemonResponse>($"https://{_apiUrl}/rpc",
                         catchPokemonRequest);
         }
-
+        
         public async Task DoGoogleLogin()
         {
             _authType = AuthType.Google;
@@ -120,7 +121,8 @@ namespace PokemonGo.RocketAPI
             if (AccessToken == null)
             {
                 var deviceCode = await GoogleLogin.GetDeviceCode();
-                tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
+                MessageBox.Show("Enter Code: " + deviceCode.user_code);
+                tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);                
                 Settings.GoogleRefreshToken = tokenResponse?.refresh_token;
                 Logger.Write("Refreshtoken " + tokenResponse?.refresh_token + " saved");
                 AccessToken = tokenResponse?.id_token;
