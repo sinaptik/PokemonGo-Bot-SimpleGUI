@@ -49,6 +49,7 @@ namespace PokemonGo.RocketAPI.GUI
             comboLocations.Items.Add(new Loc() { name = "Hamburg, Germany", lat = 53.5588061, lng = 10.057689399999958  });
             comboLocations.Items.Add(new Loc() { name = "Dusseldorf, Germany", lat = 51.224382, lng = 6.778896   });
             comboLocations.Items.Add(new Loc() { name = "Tokyo, Japan", lat = 35.69051125265253, lng = 139.68954205513 });
+            comboLocations.Items.Add(new Loc() { name = "Disneyland Park", lat = 33.8120962, lng = -117.9189742 });
         }        
 
         private void LocationSelector_Load(object sender, EventArgs e)
