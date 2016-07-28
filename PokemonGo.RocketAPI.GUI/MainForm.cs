@@ -9,6 +9,7 @@ using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System.IO;
+using PokemonGo.RocketAPI.Exceptions;
 
 namespace PokemonGo.RocketAPI.GUI
 {
@@ -18,6 +19,11 @@ namespace PokemonGo.RocketAPI.GUI
         private Settings _settings;
         private Inventory _inventory;
         private GetPlayerResponse _profile;
+
+        // Persisting Login Info
+        private AuthType _loginMethod;
+        private string _usernamePTC;
+        private string _passwordPTC;
 
         private bool _isFarmingActive;
 
@@ -131,6 +137,9 @@ namespace PokemonGo.RocketAPI.GUI
         {
             try
             {
+                // Login Method
+                _loginMethod = AuthType.Google;
+
                 // Creating the Settings
                 Logger.Write("Adjusting the Settings.");
                 UserSettings.Default.AuthType = AuthType.Google.ToString();
@@ -163,6 +172,11 @@ namespace PokemonGo.RocketAPI.GUI
         {
             try
             {
+                // Login Method
+                _loginMethod = AuthType.Ptc;
+                _usernamePTC = username;
+                _passwordPTC = password;
+
                 // Creating the Settings
                 Logger.Write("Adjusting the Settings.");
                 UserSettings.Default.AuthType = AuthType.Ptc.ToString();
@@ -276,16 +290,8 @@ namespace PokemonGo.RocketAPI.GUI
             if (!await PreflightCheck())
                 return;
 
-            // Disable Button
-            btnStartFarming.Enabled = false;
-            btnEvolvePokemons.Enabled = false;
-            btnRecycleItems.Enabled = false;
-            btnTransferDuplicates.Enabled = false;
-            cbKeepPkToEvolve.Enabled = false;
-            lbCanEvolveCont.Enabled = false;
-
-
-            btnStopFarming.Enabled = true;
+            // Disable Buttons
+            disableButtonsDuringFarming();
 
             // Setup the Timer
             _isFarmingActive = true;
@@ -302,6 +308,22 @@ namespace PokemonGo.RocketAPI.GUI
             dGrid.Columns[2].Name = "CP";
             dGrid.Columns[3].Name = "IV";
         }
+
+        private void disableButtonsDuringFarming()
+        {
+            // Disable Button
+            btnStartFarming.Enabled = false;
+            btnEvolvePokemons.Enabled = false;
+            btnRecycleItems.Enabled = false;
+            btnTransferDuplicates.Enabled = false;
+            cbKeepPkToEvolve.Enabled = false;
+            lbCanEvolveCont.Enabled = false;
+
+
+            btnStopFarming.Enabled = true;
+        }
+
+
 
         private void btnStopFarming_Click(object sender, EventArgs e)
         {
@@ -332,31 +354,11 @@ namespace PokemonGo.RocketAPI.GUI
 
         private async void btnEvolvePokemons_Click(object sender, EventArgs e)
         {
-            // Clear Grid
-            dGrid.Rows.Clear();
-
-            // Prepare Grid
-            dGrid.ColumnCount = 3;
-            dGrid.Columns[0].Name = "Action";
-            dGrid.Columns[1].Name = "Pokemon";
-            dGrid.Columns[2].Name = "Experience";
-
-            // Evolve Pokemons
             await EvolveAllPokemonWithEnoughCandy();
         }
 
         private async void btnTransferDuplicates_Click(object sender, EventArgs e)
-        {
-            // Clear Grid
-            dGrid.Rows.Clear();
-
-            // Prepare Grid
-            dGrid.ColumnCount = 3;
-            dGrid.Columns[0].Name = "Action";
-            dGrid.Columns[1].Name = "Pokemon";
-            dGrid.Columns[2].Name = "CP";
-
-            // Transfer Pokemons
+        {   
             await TransferDuplicatePokemon(cbKeepPkToEvolve.Checked);
         }
 
@@ -429,39 +431,40 @@ namespace PokemonGo.RocketAPI.GUI
                     if (_isFarmingActive)
                     {
                         // Evolve Pokemons.
-                        btnEvolvePokemons_Click(null, null);
-                        System.Threading.Thread.Sleep(10000);
+                        await EvolveAllPokemonWithEnoughCandy();
 
                         // Transfer Duplicates.
-                        btnTransferDuplicates_Click(null, null);
-                        System.Threading.Thread.Sleep(10000);
+                        await TransferDuplicatePokemon();
                     }
                 }
-                catch (Exception ex)
+                catch (InvalidResponseException)
                 {
-                    Logger.Write("Bot Crashed! :( Starting again in 5 seconds...");
-                    createCrashLog(ex);
-                    System.Threading.Thread.Sleep(5000);
+                    Logger.Write("------------> InvalidReponseException");
+                }
+                catch (Exception)
+                {
+                    Logger.Write("------------> GeneralException");
+                }
+                finally
+                {
+                    Logger.Write("<------------ Recovering");
+
+                    // Re-Authenticate with Server
+                    switch (_loginMethod)
+                    {
+                        case AuthType.Ptc:
+                            await LoginPtc(_usernamePTC, _passwordPTC);
+                            break;
+
+                        case AuthType.Google:
+                            await LoginGoogle();
+                            break;
+                    }
+
+                    // Disable Buttons
+                    disableButtonsDuringFarming();
                 }
             }           
-        }
-
-        private void createCrashLog(Exception ex)
-        {
-            try
-            {
-                string filename = "CrashLog." + DateTime.Now.ToString("yyyyMMddHHmmssffff") + ".txt";
-                
-                using (StreamWriter w = new StreamWriter(filename, true))
-                {
-                    w.WriteLine("Message: " + ex.Message);
-                    w.WriteLine("StackTrace: " + ex.StackTrace);
-                }
-            }
-            catch
-            {
-                Logger.Write("Unable to Create Crash Log.");
-            }
         }
 
         private void StopBottingSession()
@@ -597,6 +600,15 @@ namespace PokemonGo.RocketAPI.GUI
 
         private async Task EvolveAllPokemonWithEnoughCandy()
         {
+            // Clear Grid
+            dGrid.Rows.Clear();
+
+            // Prepare Grid
+            dGrid.ColumnCount = 3;
+            dGrid.Columns[0].Name = "Action";
+            dGrid.Columns[1].Name = "Pokemon";
+            dGrid.Columns[2].Name = "Experience";
+
             // Logging
             Logger.Write("Selecting Pokemons available for Evolution.");
 
@@ -628,6 +640,15 @@ namespace PokemonGo.RocketAPI.GUI
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false)
         {
+            // Clear Grid
+            dGrid.Rows.Clear();
+
+            // Prepare Grid
+            dGrid.ColumnCount = 3;
+            dGrid.Columns[0].Name = "Action";
+            dGrid.Columns[1].Name = "Pokemon";
+            dGrid.Columns[2].Name = "CP";
+
             // Logging
             Logger.Write("Selecting Pokemons available for Transfer.");
 
@@ -769,6 +790,8 @@ namespace PokemonGo.RocketAPI.GUI
             await GetCurrentPlayerInformation();
         }
 
+        Random r = new Random();
+
         private async Task ExecuteFarmingPokestopsAndPokemons()
         {
             var mapObjects = await _client.GetMapObjects();
@@ -807,7 +830,7 @@ namespace PokemonGo.RocketAPI.GUI
                 }                    
 
                 Logger.Write("Waiting 10 seconds before moving to the next Pokestop.");
-                await Task.Delay(10000);
+                await Task.Delay(2000);
             }
         }
 
@@ -879,7 +902,7 @@ namespace PokemonGo.RocketAPI.GUI
                 }
 
                 Logger.Write("Waiting 10 seconds before moving to the next Pokemon.");
-                await Task.Delay(10000);
+                await Task.Delay(2000);
             }
         }
 
