@@ -37,19 +37,19 @@
             // 
             this.pokemonListView.BackColor = System.Drawing.SystemColors.Control;
             this.pokemonListView.GridLines = true;
-            this.pokemonListView.Location = new System.Drawing.Point(0, 0);
+            this.pokemonListView.Location = new System.Drawing.Point(12, 12);
             this.pokemonListView.Name = "pokemonListView";
-            this.pokemonListView.Size = new System.Drawing.Size(582, 302);
+            this.pokemonListView.Size = new System.Drawing.Size(598, 356);
             this.pokemonListView.TabIndex = 0;
             this.pokemonListView.UseCompatibleStateImageBehavior = false;
             // 
             // btnTransfer
             // 
-            this.btnTransfer.Location = new System.Drawing.Point(12, 308);
+            this.btnTransfer.Location = new System.Drawing.Point(429, 374);
             this.btnTransfer.Name = "btnTransfer";
-            this.btnTransfer.Size = new System.Drawing.Size(558, 23);
+            this.btnTransfer.Size = new System.Drawing.Size(181, 25);
             this.btnTransfer.TabIndex = 1;
-            this.btnTransfer.Text = "Transfer Pokemon";
+            this.btnTransfer.Text = "Transfer Selected Pokemon";
             this.btnTransfer.UseVisualStyleBackColor = true;
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
@@ -57,9 +57,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 337);
+            this.ClientSize = new System.Drawing.Size(622, 411);
             this.Controls.Add(this.btnTransfer);
             this.Controls.Add(this.pokemonListView);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

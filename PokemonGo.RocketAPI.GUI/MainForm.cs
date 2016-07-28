@@ -10,6 +10,7 @@ using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System.IO;
 using PokemonGo.RocketAPI.Exceptions;
+using GMap.NET.MapProviders;
 
 namespace PokemonGo.RocketAPI.GUI
 {
@@ -25,40 +26,60 @@ namespace PokemonGo.RocketAPI.GUI
         private string _usernamePTC;
         private string _passwordPTC;
 
+        // Create Console Window
+        ConsoleForm console;
+
         private bool _isFarmingActive;
 
         public MainForm()
         {
-            InitializeComponent();
-            StartLogger();
-            CleanUp();
+            InitializeComponent();            
         }
 
         private void CleanUp()
         {
             // Clear Labels
-            lbExpHour.Text = string.Empty;
-            lbPkmnCaptured.Text = string.Empty;
-            lbPkmnHr.Text = string.Empty;
+            boxStatsExpHour.Clear();
+            boxStatsPkmnTotal.Clear();
+            boxStatsPkmnHour.Clear();
+            boxStatsTimeElapsed.Clear();
 
             // Clear Labels
-            lbName.Text = string.Empty;
-            lbLevel.Text = string.Empty;
-            lbExperience.Text = string.Empty;
-            lbItemsInventory.Text = string.Empty;
-            lbPokemonsInventory.Text = string.Empty;
-            lbLuckyEggs.Text = string.Empty;
-            lbIncense.Text = string.Empty;
+            boxLuckyEggsCount.Clear();
+            boxIncencesCount.Clear();
+            boxPokemonCount.Clear();
+            boxInventoryCount.Clear();
 
             // Clear Experience
             _totalExperience = 0;
             _pokemonCaughtCount = 0;            
         }
 
+        private void SetupLocationMap()
+        {
+            MainMap.DragButton = MouseButtons.Left;
+            MainMap.MapProvider = GMapProviders.BingMap;
+            MainMap.Position = new GMap.NET.PointLatLng(UserSettings.Default.DefaultLatitude, UserSettings.Default.DefaultLongitude);
+            MainMap.MinZoom = 0;
+            MainMap.MaxZoom = 24;
+            MainMap.Zoom = 15;
+        }
+
+        private void UpdateMap(double lat, double lng)
+        {
+            MainMap.Position = new GMap.NET.PointLatLng(lat, lng);
+        }
+
         private async void MainForm_Load(object sender, EventArgs e)
         {
             try
-            {                
+            {
+                // Load Console
+                console = new ConsoleForm();
+                StartLogger();
+                CleanUp();
+
+                // Begin Process
                 await DisplayLoginWindow();
                 DisplayPositionSelector();
                 await GetCurrentPlayerInformation();
@@ -99,6 +120,9 @@ namespace PokemonGo.RocketAPI.GUI
 
             // Close the Location Window
             locationSelect.Close();
+
+            // Setup MiniMap
+            SetupLocationMap();
         }
 
         private async Task DisplayLoginWindow()
@@ -129,7 +153,7 @@ namespace PokemonGo.RocketAPI.GUI
         private void StartLogger()
         {
             GUILogger guiLog = new GUILogger(LogLevel.Info);
-            guiLog.setLoggingBox(loggingBox);
+            guiLog.setLoggingBox(console.boxConsole);
             Logger.SetLogger(guiLog);
         }
 
@@ -209,41 +233,13 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void EnableButtons()
         {
-            btnStartFarming.Enabled = true;
-            btnTransferDuplicates.Enabled = true;
-            btnRecycleItems.Enabled = true;
-            btnEvolvePokemons.Enabled = true;
-            cbKeepPkToEvolve.Enabled = true;
-            lbCanEvolveCont.Enabled = true;
-            btnMyPokemon.Enabled = true;
+            startToolStripMenuItem.Enabled = true;
+            transferDuplicatePokemonToolStripMenuItem.Enabled = true;
+            recycleItemsToolStripMenuItem.Enabled = true;
+            evolveAllPokemonwCandyToolStripMenuItem.Enabled = true;            
+            myPokemonToolStripMenuItem.Enabled = true;
 
             Logger.Write("Ready to Work.");
-        }
-
-        private void SetLuckyEggBtnText(int nrOfLuckyEggs)
-        {
-            btnLuckyEgg.Text = $"Use Lucky Egg ({ nrOfLuckyEggs.ToString() })";
-            if (nrOfLuckyEggs == 0)
-            {
-                btnLuckyEgg.Enabled = false;
-            }
-            else
-            {
-                btnLuckyEgg.Enabled = true;
-            }
-        }
-
-        private void SetIncensesBtnText(int nrOfIncenses)
-        {
-            btnUseIncense.Text = $"Use Incense ({ nrOfIncenses.ToString() })";
-            if (nrOfIncenses == 0)
-            {
-                btnUseIncense.Enabled = false;
-            }
-            else
-            {
-                btnUseIncense.Enabled = true;
-            }
         }
 
         private async Task<bool> PreflightCheck()
@@ -279,102 +275,16 @@ namespace PokemonGo.RocketAPI.GUI
             return true;
         }
 
-
-
-        ///////////////////
-        // Buttons Logic //
-        ///////////////////
-
-        private async void btnStartFarming_Click(object sender, EventArgs e)
-        {
-            if (!await PreflightCheck())
-                return;
-
-            // Disable Buttons
-            disableButtonsDuringFarming();
-
-            // Setup the Timer
-            _isFarmingActive = true;
-            SetUpTimer();
-            StartBottingSession();
-
-            // Clear Grid
-            dGrid.Rows.Clear();
-
-            // Prepare Grid
-            dGrid.ColumnCount = 4;
-            dGrid.Columns[0].Name = "Action";
-            dGrid.Columns[1].Name = "Pokemon";
-            dGrid.Columns[2].Name = "CP";
-            dGrid.Columns[3].Name = "IV";
-        }
-
         private void disableButtonsDuringFarming()
         {
             // Disable Button
-            btnStartFarming.Enabled = false;
-            btnEvolvePokemons.Enabled = false;
-            btnRecycleItems.Enabled = false;
-            btnTransferDuplicates.Enabled = false;
-            cbKeepPkToEvolve.Enabled = false;
-            lbCanEvolveCont.Enabled = false;
+            startToolStripMenuItem.Enabled = false;
+            evolveAllPokemonwCandyToolStripMenuItem.Enabled = false;
+            recycleItemsToolStripMenuItem.Enabled = false;
+            transferDuplicatePokemonToolStripMenuItem.Enabled = false;
+            viewMyPokemonsToolStripMenuItem.Enabled = false;
 
-
-            btnStopFarming.Enabled = true;
-        }
-
-
-
-        private void btnStopFarming_Click(object sender, EventArgs e)
-        {
-            // Disable Button
-            btnStartFarming.Enabled = true;
-            btnEvolvePokemons.Enabled = true;
-            btnRecycleItems.Enabled = true;
-            btnTransferDuplicates.Enabled = true;
-            cbKeepPkToEvolve.Enabled = true;
-            lbCanEvolveCont.Enabled = true;
-
-            btnStopFarming.Enabled = false;
-
-            // Close the Timer
-            _isFarmingActive = false;
-            StopBottingSession();
-        }
-
-        private async void btnLuckyEgg_Click(object sender, EventArgs e)
-        {
-            await UseLuckyEgg();
-        }
-
-        private async void btnUseIncense_Click(object sender, EventArgs e)
-        {
-            await UseIncense();
-        }
-
-        private async void btnEvolvePokemons_Click(object sender, EventArgs e)
-        {
-            await EvolveAllPokemonWithEnoughCandy();
-        }
-
-        private async void btnTransferDuplicates_Click(object sender, EventArgs e)
-        {   
-            await TransferDuplicatePokemon(cbKeepPkToEvolve.Checked);
-        }
-
-        private async void btnRecycleItems_Click(object sender, EventArgs e)
-        { 
-            // Clear Grid
-            dGrid.Rows.Clear();
-
-            // Prepare Grid
-            dGrid.ColumnCount = 3;
-            dGrid.Columns[0].Name = "Action";
-            dGrid.Columns[1].Name = "Count";
-            dGrid.Columns[2].Name = "Item";
-
-            // Recycle Items
-            await RecycleItems();
+            stopToolStripMenuItem.Enabled = true;
         }
 
         ////////////////////////
@@ -395,21 +305,22 @@ namespace PokemonGo.RocketAPI.GUI
 
         private void TimerTick(object sender, EventArgs e)
         {
-            lbExpHour.Text = GetExpPerHour();
-            lbPkmnHr.Text = GetPokemonPerHour();
-            lbPkmnCaptured.Text = @"Pokemons Captured: " + _pokemonCaughtCount.ToString();
+            boxStatsTimeElapsed.Text = (DateTime.Now - _sessionStartTime).TotalSeconds.ToString("0") + " Sec.";
+            boxStatsExpHour.Text = GetExpPerHour();
+            boxStatsPkmnHour.Text = GetPokemonPerHour();
+            boxStatsPkmnTotal.Text = _pokemonCaughtCount.ToString();
         }
 
         private string GetExpPerHour()
         {
             double expPerHour = (_totalExperience * 3600) / (DateTime.Now - _sessionStartTime).TotalSeconds;
-            return $"Exp/Hr: {expPerHour:0.0}";
+            return $"{expPerHour:0.0}";
         }
 
         private string GetPokemonPerHour()
         {
             double pkmnPerHour = (_pokemonCaughtCount * 3600) / (DateTime.Now - _sessionStartTime).TotalSeconds;
-            return $"Pkmn/Hr: {pkmnPerHour:0.0}";
+            return $"{pkmnPerHour:0.0}";
         }
 
         private async void StartBottingSession()
@@ -428,7 +339,7 @@ namespace PokemonGo.RocketAPI.GUI
                     await ExecuteFarmingPokestopsAndPokemons();
 
                     // Only Auto-Evolve/Transfer when Continuous.
-                    if (_isFarmingActive)
+                    if (_isFarmingActive && GUISettings.Default.autoEvolveTransfer)
                     {
                         // Evolve Pokemons.
                         await EvolveAllPokemonWithEnoughCandy();
@@ -440,13 +351,26 @@ namespace PokemonGo.RocketAPI.GUI
                 catch (InvalidResponseException)
                 {
                     Logger.Write("------------> InvalidReponseException");
+                    Logger.Write("<------------ Recovering");
+
+                    // Re-Authenticate with Server
+                    switch (_loginMethod)
+                    {
+                        case AuthType.Ptc:
+                            await LoginPtc(_usernamePTC, _passwordPTC);
+                            break;
+
+                        case AuthType.Google:
+                            await LoginGoogle();
+                            break;
+                    }
+
+                    // Disable Buttons
+                    disableButtonsDuringFarming();
                 }
                 catch (Exception)
                 {
                     Logger.Write("------------> GeneralException");
-                }
-                finally
-                {
                     Logger.Write("<------------ Recovering");
 
                     // Re-Authenticate with Server
@@ -489,11 +413,14 @@ namespace PokemonGo.RocketAPI.GUI
             var playerStat = playerStats.FirstOrDefault();
             if (playerStat != null)
             {
-                var xpDifference = GetXpDiff(playerStat.Level);
-                //var message = $"{playerName} | Level {playerStat.Level}: {playerStat.Experience - playerStat.PrevLevelXp - xpDifference}/{playerStat.NextLevelXp - playerStat.PrevLevelXp - xpDifference}XP"; // Redundant?
-                lbName.Text = $"Name: {playerName}";
-                lbLevel.Text = $"Level: {playerStat.Level}";
-                lbExperience.Text = $"Experience: {playerStat.Experience - playerStat.PrevLevelXp - xpDifference}/{playerStat.NextLevelXp - playerStat.PrevLevelXp - xpDifference} XP";
+                var xpDifference = GetXpDiff(playerStat.Level);                
+                lbName.Text = playerName;
+                lbLevel.Text = $"Lv {playerStat.Level}";
+                lbExperience.Text = $"{playerStat.Experience - playerStat.PrevLevelXp - xpDifference}/{playerStat.NextLevelXp - playerStat.PrevLevelXp - xpDifference} XP";
+
+                expProgressBar.Minimum = 1;
+                expProgressBar.Maximum = (int)(playerStat.NextLevelXp - playerStat.PrevLevelXp - xpDifference);
+                expProgressBar.Value = (int)(playerStat.Experience - playerStat.PrevLevelXp - xpDifference);                
             }
 
             // Get Pokemons and Inventory
@@ -502,12 +429,10 @@ namespace PokemonGo.RocketAPI.GUI
 
             // Write to Console
             var items = myItems as IList<Item> ?? myItems.ToList();
-            lbItemsInventory.Text = $"Inventory: {items.Select(i => i.Count).Sum()}/350";
-            lbPokemonsInventory.Text = $"Pokemons: {myPokemons.Count()}/250";
-            lbLuckyEggs.Text = $"Lucky Eggs: {items.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg)?.Count ?? 0}";
-            lbIncense.Text = $"Incenses: {items.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary)?.Count ?? 0}";
-            SetLuckyEggBtnText(items.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg)?.Count ?? 0);
-            SetIncensesBtnText(items.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary)?.Count ?? 0);
+            boxInventoryCount.Text = $"{items.Select(i => i.Count).Sum()}/350";
+            boxPokemonCount.Text = $"{myPokemons.Count()}/250";
+            boxLuckyEggsCount.Text = (items.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg)?.Count ?? 0).ToString();
+            boxIncencesCount.Text = (items.FirstOrDefault(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary)?.Count ?? 0).ToString();            
         }
 
         public static int GetXpDiff(int level)
@@ -631,7 +556,7 @@ namespace PokemonGo.RocketAPI.GUI
                 }
 
                 await GetCurrentPlayerInformation();
-                await Task.Delay(3000);
+                await Task.Delay(2000);
             }
 
             // Logging
@@ -657,7 +582,7 @@ namespace PokemonGo.RocketAPI.GUI
             foreach (var duplicatePokemon in duplicatePokemons)
             {
                 var iv = Logic.Logic.CalculatePokemonPerfection(duplicatePokemon);
-                if (iv < _settings.KeepMinIVPercentage && duplicatePokemon.Cp < _settings.KeepMinCP)
+                if (iv < GUISettings.Default.minIV && duplicatePokemon.Cp < GUISettings.Default.minCP)
                 {
                     var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
                     Logger.Write($"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP and an IV of { iv }");
@@ -684,6 +609,15 @@ namespace PokemonGo.RocketAPI.GUI
         {   
             try
             {
+                // Clear Grid
+                dGrid.Rows.Clear();
+
+                // Prepare Grid
+                dGrid.ColumnCount = 3;
+                dGrid.Columns[0].Name = "Action";
+                dGrid.Columns[1].Name = "Count";
+                dGrid.Columns[2].Name = "Item";
+
                 // Logging
                 Logger.Write("Recycling Items to Free Space");
 
@@ -805,6 +739,7 @@ namespace PokemonGo.RocketAPI.GUI
             foreach (var pokeStop in fortDatas)
             {
                 var update = await _client.UpdatePlayerLocation(pokeStop.Latitude, pokeStop.Longitude, _settings.DefaultAltitude); // Redundant?
+                UpdateMap(pokeStop.Latitude, pokeStop.Longitude);
                 var fortInfo = await _client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
                 boxPokestopName.Text = fortInfo.Name;
@@ -829,8 +764,8 @@ namespace PokemonGo.RocketAPI.GUI
                     return;
                 }                    
 
-                Logger.Write("Waiting 10 seconds before moving to the next Pokestop.");
-                await Task.Delay(2000);
+                Logger.Write("Waiting before moving to the next Pokestop.");
+                await Task.Delay(GUISettings.Default.pokestopDelay * 1000);
             }
         }
 
@@ -858,9 +793,8 @@ namespace PokemonGo.RocketAPI.GUI
                 CatchPokemonResponse caughtPokemonResponse;
                 do
                 {
-                    if (encounterPokemonResponse?.CaptureProbability.CaptureProbability_.First() < 0.4)
+                    if (encounterPokemonResponse?.CaptureProbability.CaptureProbability_.First() < (GUISettings.Default.minBerry / 100))
                     {
-                        //Throw berry if we can
                         await UseBerry(pokemon.EncounterId, pokemon.SpawnpointId);
                     }
 
@@ -901,12 +835,19 @@ namespace PokemonGo.RocketAPI.GUI
                     return;
                 }
 
-                Logger.Write("Waiting 10 seconds before moving to the next Pokemon.");
-                await Task.Delay(2000);
+                Logger.Write("Waiting before moving to the next Pokemon.");
+                await Task.Delay(GUISettings.Default.pokemonDelay * 1000);
             }
         }
 
-        private async void btnExtraPlayerInformation_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var confirm = MessageBox.Show("Do you want to close the bot?", "PoGo Bot", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+                Application.Exit();
+        }
+
+        private async void showStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var stuff = await _inventory.GetPlayerStats();
             var stats = stuff.FirstOrDefault();
@@ -928,13 +869,96 @@ namespace PokemonGo.RocketAPI.GUI
                                 $"Prestige Dropped Total: {stats.PrestigeDroppedTotal}\n" +
                                 $"Prestige Raised Total: {stats.PrestigeRaisedTotal}\n" +
                                 $"Small Rattata Caught: {stats.SmallRattataCaught}\n" +
-                                $"Unique Pokedex Entries: {stats.UniquePokedexEntries}");
+                                $"Unique Pokedex Entries: {stats.UniquePokedexEntries}", "PoGo Bot");
         }
 
-        private void btnMyPokemon_Click(object sender, EventArgs e)
+        private async void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!await PreflightCheck())
+                return;
+
+            // Disable Buttons
+            disableButtonsDuringFarming();
+
+            // Setup the Timer
+            _isFarmingActive = true;
+            SetUpTimer();
+            StartBottingSession();
+
+            // Clear Grid
+            dGrid.Rows.Clear();
+
+            // Prepare Grid
+            dGrid.ColumnCount = 4;
+            dGrid.Columns[0].Name = "Action";
+            dGrid.Columns[1].Name = "Pokemon";
+            dGrid.Columns[2].Name = "CP";
+            dGrid.Columns[3].Name = "IV";
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Disable Button
+            startToolStripMenuItem.Enabled = true;
+            transferDuplicatePokemonToolStripMenuItem.Enabled = true;
+            recycleItemsToolStripMenuItem.Enabled = true;
+            evolveAllPokemonwCandyToolStripMenuItem.Enabled = true;
+            viewMyPokemonsToolStripMenuItem.Enabled = true;
+
+            stopToolStripMenuItem.Enabled = false;
+
+            // Close the Timer
+            _isFarmingActive = false;
+            StopBottingSession();
+        }
+
+        private void displayConsoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            console.Show();
+        }
+
+        private async void recycleItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await RecycleItems();
+        }
+
+        private async void luckyEgg0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await UseLuckyEgg();
+        }
+
+        private async void incence0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await UseIncense();
+        }
+
+        private void viewMyPokemonsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var myPokemonsListForm = new PokemonForm(_client);
             myPokemonsListForm.ShowDialog();
+        }
+
+        private async void evolveAllPokemonwCandyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await EvolveAllPokemonWithEnoughCandy();
+        }
+
+        private async void transferDuplicatePokemonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await TransferDuplicatePokemon();
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUISettingsForm settingsGUI = new GUISettingsForm();
+            settingsGUI.ShowDialog();            
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("PoGo Bot SimpleGUI is an Open Source Project Created by Jorge Limas." + Environment.NewLine + Environment.NewLine +
+                "You can get the latest version for FREE at:" + Environment.NewLine + 
+                "https://github.com/Novalys/PokemonGo-Bot-SimpleGUI", "PoGo Bot");
         }
     }
 }

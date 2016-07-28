@@ -85,14 +85,17 @@ namespace PokemonGo.RocketAPI.GUI
 
         private async void btnTransfer_Click(object sender, EventArgs e)
         {
-            var id = (ulong) pokemonListView.SelectedItems[0].Tag;
-
-            DialogResult dialogResult = MessageBox.Show("Do you really want to transfer this pokemon?\nYou will never see them again :(", "Transfer.", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Do you really want to transfer selected pokemon(s)?\nYou will never see them again :(", "Confirm Transfer", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                await client.TransferPokemon(id);
-                Execute();
+                foreach (ListViewItem item in pokemonListView.SelectedItems)
+                {
+                    var id = (ulong)item.Tag;
+                    await client.TransferPokemon(id);
+                }
             }
+
+            await Execute();      
         }
     }
 }

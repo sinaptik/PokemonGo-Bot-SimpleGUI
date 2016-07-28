@@ -46,9 +46,10 @@
             // 
             // btnGoogleLogin
             // 
-            this.btnGoogleLogin.Location = new System.Drawing.Point(58, 16);
+            this.btnGoogleLogin.Location = new System.Drawing.Point(60, 14);
+            this.btnGoogleLogin.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.btnGoogleLogin.Name = "btnGoogleLogin";
-            this.btnGoogleLogin.Size = new System.Drawing.Size(129, 41);
+            this.btnGoogleLogin.Size = new System.Drawing.Size(258, 86);
             this.btnGoogleLogin.TabIndex = 3;
             this.btnGoogleLogin.Text = "Login";
             this.btnGoogleLogin.UseVisualStyleBackColor = true;
@@ -56,9 +57,10 @@
             // 
             // btnPtcLogin
             // 
-            this.btnPtcLogin.Location = new System.Drawing.Point(166, 67);
+            this.btnPtcLogin.Location = new System.Drawing.Point(230, 132);
+            this.btnPtcLogin.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.btnPtcLogin.Name = "btnPtcLogin";
-            this.btnPtcLogin.Size = new System.Drawing.Size(68, 28);
+            this.btnPtcLogin.Size = new System.Drawing.Size(136, 38);
             this.btnPtcLogin.TabIndex = 2;
             this.btnPtcLogin.Text = "Login";
             this.btnPtcLogin.UseVisualStyleBackColor = true;
@@ -66,10 +68,11 @@
             // 
             // boxPassword
             // 
-            this.boxPassword.Location = new System.Drawing.Point(72, 41);
+            this.boxPassword.Location = new System.Drawing.Point(124, 83);
+            this.boxPassword.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.boxPassword.Name = "boxPassword";
             this.boxPassword.PasswordChar = '*';
-            this.boxPassword.Size = new System.Drawing.Size(161, 20);
+            this.boxPassword.Size = new System.Drawing.Size(242, 35);
             this.boxPassword.TabIndex = 1;
             this.boxPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.boxPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.boxPassword_KeyDown);
@@ -77,35 +80,39 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 44);
+            this.label1.Location = new System.Drawing.Point(6, 83);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.Size = new System.Drawing.Size(99, 30);
             this.label1.TabIndex = 3;
             this.label1.Text = "Password";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 18);
+            this.label2.Location = new System.Drawing.Point(6, 26);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.Size = new System.Drawing.Size(106, 30);
             this.label2.TabIndex = 5;
             this.label2.Text = "Username";
             // 
             // boxUsername
             // 
-            this.boxUsername.Location = new System.Drawing.Point(72, 15);
+            this.boxUsername.Location = new System.Drawing.Point(124, 26);
+            this.boxUsername.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.boxUsername.Name = "boxUsername";
-            this.boxUsername.Size = new System.Drawing.Size(161, 20);
+            this.boxUsername.Size = new System.Drawing.Size(242, 35);
             this.boxUsername.TabIndex = 0;
             this.boxUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnResetToken
             // 
             this.btnResetToken.ForeColor = System.Drawing.Color.Red;
-            this.btnResetToken.Location = new System.Drawing.Point(58, 63);
+            this.btnResetToken.Location = new System.Drawing.Point(60, 114);
+            this.btnResetToken.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.btnResetToken.Name = "btnResetToken";
-            this.btnResetToken.Size = new System.Drawing.Size(129, 26);
+            this.btnResetToken.Size = new System.Drawing.Size(258, 60);
             this.btnResetToken.TabIndex = 6;
             this.btnResetToken.Text = "Reset Token";
             this.btnResetToken.UseVisualStyleBackColor = true;
@@ -117,9 +124,10 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(258, 135);
+            this.tabControl1.Size = new System.Drawing.Size(392, 231);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage1
@@ -129,10 +137,11 @@
             this.tabPage1.Controls.Add(this.boxPassword);
             this.tabPage1.Controls.Add(this.boxUsername);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 39);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(250, 109);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.tabPage1.Size = new System.Drawing.Size(384, 188);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "PTC Login";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -141,22 +150,25 @@
             // 
             this.tabPage2.Controls.Add(this.btnGoogleLogin);
             this.tabPage2.Controls.Add(this.btnResetToken);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 39);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(250, 109);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(6, 7, 6, 7);
+            this.tabPage2.Size = new System.Drawing.Size(384, 188);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Google Login";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(258, 135);
+            this.ClientSize = new System.Drawing.Size(392, 231);
             this.Controls.Add(this.tabControl1);
+            this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Select Login Method";
