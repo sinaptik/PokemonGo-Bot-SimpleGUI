@@ -1,12 +1,14 @@
 # Pokemon Go Bot - SimpleGUI
-
 This project is to create a simple GUI application for the Pokemon Go Rocket API.
 
-![Application Demo](http://i.imgur.com/ea7wnm8.png)
+![Application Demo](http://i.imgur.com/4jNsHUk.png)
+
+# Support Chat
+[Discord Channel](https://discord.gg/hEdUFqv)
 
 # How to Use
 ## The Simple
-- Download the [Latest Release](https://github.com/Novalys/PokemonGo-Bot-SimpleGUI/releases)
+- Download the [Latest Release](https://github.com/Novalys/PokemonGo-Bot-SimpleGUI/releases/latest)
 - Extracts the contents of the zip file.
 - Open the PoGoBot-GUI.exe file.
 - That's it! Just enter your credentials, select your starting location from the map and start farming.
@@ -14,7 +16,7 @@ This project is to create a simple GUI application for the Pokemon Go Rocket API
 ## The Advanced
 - Download Visual Studio 2015.
 - Clone this Repository.
-- Open the Pokemon Go Rocket API.sln (VS Solution File)
+- Open the Pokemon PoGo-SimpleGUI.sln (VS Solution File)
 - On the Solution Explorer Menu right click "Pokemon.Go.RocketAPI.GUI" and select "Set as Startup Project"
 - Press F5
 - Enter your credentials, select your starting location from the map and start farming.
