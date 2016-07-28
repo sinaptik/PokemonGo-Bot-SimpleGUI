@@ -76,6 +76,7 @@ namespace PokemonGo.RocketAPI.GUI
             {
                 // Setup Console
                 console = new ConsoleForm();
+                console.TopMost = true;
                 console.StartPosition = FormStartPosition.Manual;                
                 console.Location = new System.Drawing.Point((Screen.PrimaryScreen.Bounds.Width / 2) - 530, (Screen.PrimaryScreen.Bounds.Height / 2) + 310);                
 
@@ -84,8 +85,7 @@ namespace PokemonGo.RocketAPI.GUI
                 CleanUp();
 
                 // Begin Process
-                await DisplayLoginWindow();
-                console.Show();
+                await DisplayLoginWindow();                
                 DisplayPositionSelector();                
                 await GetCurrentPlayerInformation();
                 await PreflightCheck();
@@ -137,6 +137,9 @@ namespace PokemonGo.RocketAPI.GUI
             LoginForm loginForm = new LoginForm();
             loginForm.ShowDialog();
             Show();
+
+            // Display Console
+            console.Show();
 
             // Check if an Option was Selected
             if (!loginForm.loginSelected)

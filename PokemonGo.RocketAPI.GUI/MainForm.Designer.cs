@@ -120,9 +120,9 @@
             this.lbExperience.Location = new System.Drawing.Point(80, 103);
             this.lbExperience.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.lbExperience.Name = "lbExperience";
-            this.lbExperience.Size = new System.Drawing.Size(130, 30);
+            this.lbExperience.Size = new System.Drawing.Size(113, 30);
             this.lbExperience.TabIndex = 2;
-            this.lbExperience.Text = "lbExperience";
+            this.lbExperience.Text = "Experience";
             // 
             // lbLevel
             // 
@@ -133,7 +133,7 @@
             this.lbLevel.Name = "lbLevel";
             this.lbLevel.Size = new System.Drawing.Size(60, 30);
             this.lbLevel.TabIndex = 1;
-            this.lbLevel.Text = "Lv 30";
+            this.lbLevel.Text = "Level";
             // 
             // lbName
             // 
@@ -142,9 +142,9 @@
             this.lbName.Location = new System.Drawing.Point(9, 56);
             this.lbName.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(265, 47);
+            this.lbName.Size = new System.Drawing.Size(388, 47);
             this.lbName.TabIndex = 0;
-            this.lbName.Text = "lbTrainerName";
+            this.lbName.Text = "PokemonTrainerName";
             // 
             // dGrid
             // 
@@ -276,6 +276,7 @@
             // 
             // MainMap
             // 
+            this.MainMap.BackColor = System.Drawing.SystemColors.Control;
             this.MainMap.Bearing = 0F;
             this.MainMap.CanDragMap = true;
             this.MainMap.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -664,7 +665,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PoGo Bot - SimpleGUI v1.0";
+            this.Text = "PoGo Bot - SimpleGUI v1.1";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dGrid)).EndInit();
             this.groupBox2.ResumeLayout(false);
