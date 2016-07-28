@@ -80,8 +80,7 @@ namespace PokemonGo.RocketAPI.GUI
                 CleanUp();
 
                 // Begin Process
-                await DisplayLoginWindow();
-                console.Show();              
+                await DisplayLoginWindow();          
                 DisplayPositionSelector();                
                 await GetCurrentPlayerInformation();
                 await PreflightCheck();
