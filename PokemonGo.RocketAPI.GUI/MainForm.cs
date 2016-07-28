@@ -399,7 +399,7 @@ namespace PokemonGo.RocketAPI.GUI
             boxPokestopInit.Clear();
             boxPokestopCount.Clear();
 
-            MessageBox.Show(@"Please allow a few seconds for the pending tasks to complete.");
+            MessageBox.Show(@"Please allow a few seconds for the pending tasks to complete.", "PoGo Bot");
         }
 
         ///////////////////////
